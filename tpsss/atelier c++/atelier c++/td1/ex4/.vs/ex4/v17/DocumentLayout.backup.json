@@ -1,0 +1,37 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\Mega-PC\\Desktop\\atelier c\u002B\u002B\\ex4\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{B3C11BDD-4AA6-4260-A1C3-85FB49B0937E}|ex4\\ex4.vcxproj|C:\\Users\\Mega-PC\\Desktop\\atelier c\u002B\u002B\\ex4\\ex4\\ex4.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{B3C11BDD-4AA6-4260-A1C3-85FB49B0937E}|ex4\\ex4.vcxproj|solutionrelative:ex4\\ex4.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "ex4.cpp",
+              "DocumentMoniker": "C:\\Users\\Mega-PC\\Desktop\\atelier c\u002B\u002B\\ex4\\ex4\\ex4.cpp",
+              "RelativeDocumentMoniker": "ex4\\ex4.cpp",
+              "ToolTip": "C:\\Users\\Mega-PC\\Desktop\\atelier c\u002B\u002B\\ex4\\ex4\\ex4.cpp",
+              "RelativeToolTip": "ex4\\ex4.cpp",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAFIAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-10-10T07:30:26.371Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
