@@ -76,3 +76,13 @@ DESCRIBE Type;
 
 --question 3
 
+-- Script de destruction des tables
+-- Nom: dropParc.sql
+
+-- Destruction dans l'ordre inverse des dépendances
+DROP TABLE IF EXISTS Installer;
+DROP TABLE IF EXISTS Poste;
+DROP TABLE IF EXISTS Salle;
+DROP TABLE IF EXISTS Logiciel;
+DROP TABLE IF EXISTS Segment;
+DROP TABLE IF EXISTS Type;
