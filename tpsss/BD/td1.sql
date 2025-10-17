@@ -56,3 +56,23 @@ CREATE TABLE Type (
     typeLP VARCHAR(9) PRIMARY KEY,
     nomType VARCHAR(20)
 );
+
+
+
+--question 2
+
+-- Script d'affichage de la description des tables
+-- Nom: descParc.sql
+
+DESCRIBE Segment;
+DESCRIBE Salle;
+DESCRIBE Poste;
+DESCRIBE Logiciel;
+DESCRIBE Installer;
+DESCRIBE Type;
+
+
+
+
+--question 3
+
