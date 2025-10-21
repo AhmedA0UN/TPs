@@ -1,6 +1,7 @@
-#include <stdio.h>
+#include <iostream>
+using namespace std;
 
-// Définition récursive de la fonction u(n)
+// Fonction récursive pour calculer u(n)
 int u(int n) {
     if (n == 0)
         return 3;
@@ -10,13 +11,13 @@ int u(int n) {
 
 int main() {
     int N;
-    printf("Entrez un entier N : ");
-    scanf("%d", &N);
+    cout << "Entrez un entier N : ";
+    cin >> N;
 
     if (N < 0) {
-        printf("Veuillez entrer un entier positif.\n");
+        cout << "Veuillez entrer un entier positif." << endl;
     } else {
-        printf("u(%d) = %d\n", N, u(N));
+        cout << "u(" << N << ") = " << u(N) << endl;
     }
 
     return 0;
