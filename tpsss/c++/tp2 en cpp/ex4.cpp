@@ -67,7 +67,7 @@ int main() {
             }
 
             cout << "Résultat = " << resultat << endl;
-            system("pause"); // Attend que l'utilisateur appuie sur une touche
+            //system("pause"); // Attend que l'utilisateur appuie sur une touche
         }
 
     } while (choix != 5);
