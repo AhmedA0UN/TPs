@@ -8,7 +8,7 @@ public class Livre {
 
     private static int nbLivres = 0;
 
-        public Livre() {
+    public Livre() {
         nbLivres++;
     }
 
