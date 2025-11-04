@@ -11,7 +11,7 @@ int main() {
     int longueur_max = 0;
 
     for (int i = 0; i < N; ++i) {
-        cout << "Mot " << i + 1 << " : ";
+        cout << "Mot " << i + 1 << " : " << endl;
         cin >> mot;
 
         if (mot.length() > longueur_max) {
@@ -21,7 +21,7 @@ int main() {
     }
 
     cout << "\nLe mot le plus long est : " << mot_le_plus_long
-         << " (" << longueur_max << " caractères)" << endl;
+         << " (" << longueur_max << " caracteres)" << endl;
 
     return 0;
 }

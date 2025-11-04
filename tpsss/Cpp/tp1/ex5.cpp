@@ -3,13 +3,14 @@
 using namespace std;
 
 double f(double x, bool &OK) {
+    
     double expression = (x - 1) * (2 - x);
     if (expression >= 0) {
         OK = true;
         return sqrt(expression);
     } else {
         OK = false;
-        return 0.0; // Valeur par défaut si non définie
+        return 0.0; 
     }
 }
 
