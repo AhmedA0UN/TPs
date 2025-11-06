@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Glossaire HTML</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 2em;
+        }
+        dl {
+            border-left: 4px solid #0077cc;
+            padding-left: 1em;
+        }
+        dt {
+            font-weight: bold;
+            margin-top: 1em;
+        }
+        dd {
+            margin-left: 1em;
+            color: #333;
+        }
+
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 2em;
+        }
+        ol {
+            margin-bottom: 2em;
+        }
+
+
+        table {
+            border-collapse: collapse;
+            width: 80%;
+            margin: 2em auto;
+        }
+        caption {
+            font-weight: bold;
+            margin-bottom: 0.5em;
+        }
+        th, td {
+            border: 1px solid #444;
+            padding: 0.5em;
+            text-align: center;
+        }
+        thead {
+            background-color: #f0f0f0;
+        }
+        tfoot {
+            background-color: #e0e0e0;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <h1>Glossaire des technologies web</h1>
+    
+    <dl>
+        <dt>HTML</dt>
+        <dd>Langage de balisage utilisé pour structurer le contenu des pages web.</dd>
+
+        <dt>CSS</dt>
+        <dd>Langage de style permettant de définir l’apparence visuelle des éléments HTML.</dd>
+
+        <dt>JavaScript</dt>
+        <dd>Langage de programmation utilisé pour rendre les pages web interactives.</dd>
+
+        <dt>SQL</dt>
+        <dd>Langage de requête utilisé pour interagir avec les bases de données relationnelles.</dd>
+    </dl>
+
+    <h1>Exemples de listes ordonnées HTML</h1>
+
+    <h2>🔢 Liste classique (type par défaut)</h2>
+    <ol>
+        <li>Introduction</li>
+        <li>Développement</li>
+        <li>Conclusion</li>
+    </ol>
+
+    <h2>🅰️ Liste avec lettres majuscules</h2>
+    <ol type="A">
+        <li>Algèbre</li>
+        <li>Analyse</li>
+        <li>Géométrie</li>
+    </ol>
+
+    <h2>🔡 Liste avec lettres minuscules, démarrant à "c"</h2>
+    <ol type="a" start="3">
+        <li>Chimie</li>
+        <li>Physique</li>
+        <li>Biologie</li>
+    </ol>
+
+    <h2>🧮 Liste avec chiffres romains</h2>
+    <ol type="I">
+        <li>Préambule</li>
+        <li>Chapitre I</li>
+        <li>Chapitre II</li>
+    </ol>
+
+
+    <table>
+        <caption>Résultats des examens</caption>
+
+        <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Matière</th>
+                <th>Note</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr>
+                <td>Ahmed</td>
+                <td>Physique</td>
+                <td>18</td>
+            </tr>
+            <tr>
+                <td>Leïla</td>
+                <td>Maths</td>
+                <td>17</td>
+            </tr>
+            <tr>
+                <td>Youssef</td>
+                <td>Informatique</td>
+                <td>19</td>
+            </tr>
+        </tbody>
+
+        <tfoot>
+            <tr>
+                <td colspan="3">Fin du tableau</td>
+            </tr>
+        </tfoot>
+    </table>
+    
+
+    <table aria-describedby="descVentes">
+  <caption>Résultats des ventes mensuelles</caption>
+  <thead>
+    <tr>
+      <th>Mois</th>
+      <th>Produit A</th>
+      <th>Produit B</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Janvier</td>
+      <td>120</td>
+      <td>95</td>
+    </tr>
+    <tr>
+      <td>Février</td>
+      <td>135</td>
+      <td>110</td>
+    </tr>
+  </tbody>
+</table>
+
+<p id="descVentes">
+  Ce tableau présente les chiffres de vente mensuels pour deux produits au cours du premier trimestre.
+</p>
+
+
+<table summary="Ce tableau présente les résultats des ventes mensuelles.">
+  <tr>
+    <th>Mois</th>
+    <th>Ventes</th>
+  </tr>
+  <tr>
+    <td>Janvier</td>
+    <td>120</td>
+  </tr>
+</table>
+
+
+
+<table aria-describedby="resumeTableau">
+  <caption>Ventes mensuelles</caption>
+  <thead>
+    <tr>
+      <th>Mois</th>
+      <th>Ventes</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Janvier</td>
+      <td>120</td>
+    </tr>
+  </tbody>
+</table>
+
+<p id="resumeTableau">
+  Ce tableau présente les ventes mensuelles pour le premier trimestre.
+</p>
+
+
+<video src="Accès_au_réseau.mp4" controls autoplay muted loop poster="hh.jpg" width="640" height="360">
+  Votre navigateur ne supporte pas la balise vidéo.
+</video>
+
+
+<form>
+  <p>
+    Votre langage de programmation préféré :<br />
+
+    <input type="radio" name="langage" value="csharp" id="csharp" />
+    <label for="csharp">C#</label><br />
+
+    <input type="radio" name="langage" value="java" id="java" />
+    <label for="java">Java</label><br />
+
+    <input type="radio" name="langage" value="php" id="php" />
+    <label for="php">PHP</label>
+  </p>
+</form>
+
+
+</body>
+</html>
+
