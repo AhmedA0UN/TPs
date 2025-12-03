@@ -16,7 +16,7 @@ class Etudiant extends Personne {
 
     @Override
     public void affiche() {
-        System.out.println("Je suis " + nom + " l’étudiant");
+        System.out.println("Je suis " + nom + " l etudiant");
     }
 }
 
@@ -28,7 +28,7 @@ class Enseignant extends Personne {
 
     @Override
     public void affiche() {
-        System.out.println("Je suis " + nom + " l’enseignant");
+        System.out.println("Je suis " + nom + " l enseignant");
     }
 }
 
@@ -41,7 +41,7 @@ class Agent extends Personne {
 
     @Override
     public void affiche() {
-        System.out.println("Je suis " + nom + " l’agent administratif");
+        System.out.println("Je suis " + nom + " l agent administratif");
     }
 }
 
