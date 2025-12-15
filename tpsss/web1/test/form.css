@@ -1,0 +1,79 @@
+/* Règle 1: Fixer les limites du bloc qui englobe toute la page */
+body {
+    width: 900px;
+    margin: 0 auto;
+    max-height: 900px;
+}
+
+/* Règle 2: Définir image de fond, police et couleur de texte par défaut */
+body {
+    background-image: url('images/fond_jaune.png');
+    font-family: 'Trebuchet MS', Arial, sans-serif;
+    color: #181818;
+}
+
+/* Règle 3: Style du formulaire */
+form {
+    background-color: #FAFAFA;
+    padding: 10px;
+    width: 280px;
+}
+
+/* Règle 4: Style des fieldset */
+fieldset {
+    padding: 0 20px 20px 20px;
+    margin-bottom: 10px;
+    border: 1px solid #DF3F3F;
+}
+
+/* Règle 5: Style des legendes */
+legend {
+    color: #DF3F3F;
+    font-weight: bold;
+}
+
+/* Règle 6: Style des labels */
+label {
+    margin-top: 10px;
+    display: block;
+}
+
+/* Règle 6b: Labels inline (correction de la syntaxe) */
+label.inline {
+    display: inline;
+    margin-right: 50px;
+}
+
+/* Règle 7: Couleur d'arrière-plan des éléments */
+input, textarea, select, input[type="radio"] {
+    background-color: #FFF3F3;
+}
+
+/* Règle 8: Style des input, textarea et select */
+input, textarea, select {
+    padding: 3px;
+    border: 1px solid #F5C5C5;
+    border-radius: 5px;
+    width: 200px;
+    box-shadow: 1px 1px 2px #C0C0C0 inset;
+}
+
+/* Règle 9: Boutons à choix multiples */
+.radio-group {
+    margin-top: 10px;
+}
+
+/* Règle 10: Style des boutons radio */
+input[type="radio"] {
+    background-color: transparent;
+    border: none;
+    width: 10px;
+}
+
+/* Règle 11: Style des deux boutons */
+button {
+    width: 100px;
+    margin-left: 5px;
+    box-shadow: 1px 1px 1px #D83F3D;
+    cursor: pointer;
+}

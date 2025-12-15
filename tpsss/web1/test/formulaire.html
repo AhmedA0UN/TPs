@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulaire CSS - Examen TP</title>
+    <link rel="stylesheet" href="form.css">
+</head>
+<body>
+    <form action="#" method="post">
+        <fieldset>
+            <legend>A propos des CSS :</legend>
+            <label for="css">Savez-vous ce que veut dire CSS ? :</label>
+            
+            <div class="radio-group">
+                <label class="inline">
+                    <input type="radio" name="css_knowledge" value="oui"> oui
+                </label>
+                <label class="inline">
+                    <input type="radio" name="css_knowledge" value="non"> non
+                </label>
+            </div>
+            
+            <label for="css_usage">Si oui, les utilisez-vous plutôt :</label>
+            <select id="css_usage" name="css_usage">
+                <option value="toujours">toujours</option>
+            </select>
+        </fieldset>
+
+        <fieldset>
+            <legend>Vos coordonnées :</legend>
+            <label for="email">Votre email :</label>
+            <input type="email" id="email" name="email">
+            
+            <label for="comments">Vos commentaires :</label>
+            <textarea id="comments" name="comments" rows="4"></textarea>
+        </fieldset>
+
+        <div>
+            <button type="submit">Envoyer</button>
+            <button type="reset">Annuler</button>
+        </div>
+    </form>
+</body>
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    
+    <form action="#" method="post">
+        <fieldset>
+            <legend >Contactez-nous</legend>
+
+            <label class="oblig" for="nom">Nom: </label>
+            <input type="text" name="nom" id="nom" required>
+
+            <label class="oblig" for="pn">prenom: </label>
+            <input type="text" name="prenom" id="pn" required>
+
+            <label class="oblig" for="mail">Email: </label>
+            <input class="oblig" type="mail" name="email" id="mail" required>
+            
+            <label for="tel">telephone: </label>
+            <input type="tel" name="telphone" id="tel">
+            
+            <label for="nl">sujet: </label>
+            <textarea name="sujet" id="nl"></textarea>
+            
+            <label class="oblig" for="msg">message: </label>
+            <textarea class="oblig" name="message" id="msg" rows="5" required></textarea>
+            
+
+            <div>
+                
+                <p><input type="checkbox" name="abonner" value="abonnée" id="ckb">s'abonner à Newsletter</p>
+
+            </div>
+
+        </fieldset>
+
+        <div>
+            <br>
+            <button class="env" type="submit">Envoyer le message</button>
+            <button class="eff" type="reset">Effacer</button>
+        </div>
+
+    </form>
+
+
+</body>
+</html>
