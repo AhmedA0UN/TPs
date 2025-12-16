@@ -1,7 +1,7 @@
 #include <iostream>
 using namespace std;
 
-const int MAX = 100; // taille maximale du tableau
+const int MAX = 100; // taille maximal du tableau
 
 bool estpremier(int n) {
     if (n < 2) return false;
