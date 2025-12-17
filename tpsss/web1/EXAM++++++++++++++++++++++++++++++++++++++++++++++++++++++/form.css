@@ -1,0 +1,60 @@
+body{
+    width: 900px;
+    margin: auto;
+    max-height: 900px;
+}
+
+body{
+    background-image: url(''));
+    font-family:'trebuchet MS', Arial,sans-serif;
+    color: #181818;
+}
+
+form{
+    background-color: #fafafa;
+    padding: 10px;
+    width: 280px;
+}
+
+fieldset{
+    padding: 0 20px 20px 20px;
+    margin-bottom: 10px;
+    border: 1px solid #df3f3f;
+}
+
+legend{
+    color: #df3f3f;
+    font-weight: bold;
+}
+
+label.inline{
+    display: inline;
+    margin-right: 50px;
+}
+
+input,textarea,select,input[type="radio"] {
+    background-color:#fff3f3 ;
+}
+
+input,textarea,select{
+    padding: 3px;
+    border: 1px solid #f5c3c5;
+    border-radius: 5px;
+    width: 200px;
+    box: shadow 1px 1px 20px #c0c0c0 inset;
+}
+
+.radio-group{
+    margin-top: 10px;
+}
+
+input[type="radio"] {
+    background-color: ;
+}
+
+button{
+    width: 100px;
+    margin-left: 5px;
+    box-shadow: 1px 1px 1px #d83f3d;
+    cursor: pointer;
+}

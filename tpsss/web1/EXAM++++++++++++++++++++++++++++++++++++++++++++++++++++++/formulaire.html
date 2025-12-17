@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="form.css">
+</head>
+<body>
+    <form action="#" method="post">
+        <fieldset>
+            <legend>A propos des CSS: </legend>
+            <label for="css">Saver-vous ce que veut dire CSS ? :</label>
+            <div class="radio-group">
+                <input type="radio" value="oui" id="oui">
+                <label for="oui" class="inline">oui</label>
+                <input type="radio" value="non" id="non">
+                <label for="non" class="inline">non</label>
+            </div>
+            <label for="non si">Si oui,les utilisez-vous plutot:</label>
+            <select name="non si" id="non si">
+                <option value="toujours">toujours</option>
+            </select>
+            
+            
+        </fieldset>
+
+        <fieldset>
+            <legend>Vos coordonnées :</legend>
+            <label for="mail">Votre email: </label>
+            <input type="mail" id="mail" name="mail">
+            <label for="mail">Vos commentaires : </label>
+            <textarea name="comts" id="com" rows="4"></textarea>
+        </fieldset>
+
+
+        <div>
+            <button type="submit">Envoyer</button>
+            <button type="reset">Annuler</button>
+        </div>
+        
+    </form>    
+
+</body>
+</html>
