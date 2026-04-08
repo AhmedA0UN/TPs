@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxGraphModel dx="1422" dy="762" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+  <root>
+    <mxCell id="0" />
+    <mxCell id="1" parent="0" />
+
+    <!-- ═══════════════════════════════════════════════════
+         TITRE
+    ═══════════════════════════════════════════════════ -->
+    <mxCell id="title" value="Diagramme de Cas d'Utilisation — Système de Gestion d'un Restaurant" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=16;fontStyle=1;fontColor=#1A4A7C;" vertex="1" parent="1">
+      <mxGeometry x="80" y="20" width="1000" height="40" as="geometry" />
+    </mxCell>
+
+    <!-- ═══════════════════════════════════════════════════
+         FRONTIÈRE SYSTÈME
+    ═══════════════════════════════════════════════════ -->
+    <mxCell id="sys" value="Système de gestion du restaurant" style="points=[[0,0],[0.25,0],[0.5,0],[0.75,0],[1,0],[1,0.25],[1,0.5],[1,0.75],[1,1],[0.75,1],[0.5,1],[0.25,1],[0,1],[0,0.75],[0,0.5],[0,0.25]];shape=mxgraph.flowchart.start_2;fillColor=none;strokeColor=#1A4A7C;strokeWidth=2;dashed=1;dashPattern=8 4;verticalLabelPosition=top;verticalAlign=bottom;labelBackgroundColor=none;fontSize=13;fontStyle=1;fontColor=#1A4A7C;" vertex="1" parent="1">
+      <mxGeometry x="220" y="70" width="720" height="710" as="geometry" />
+    </mxCell>
+    <!-- Utiliser un rectangle simple pour la frontière -->
+    <mxCell id="sys2" value="Système de gestion du restaurant" style="rounded=1;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#1A4A7C;strokeWidth=2;dashed=1;dashPattern=8 4;verticalAlign=top;fontSize=13;fontStyle=1;fontColor=#1A4A7C;" vertex="1" parent="1">
+      <mxGeometry x="220" y="70" width="720" height="710" as="geometry" />
+    </mxCell>
+
+    <!-- ═══════════════════════════════════════════════════
+         ACTEURS
+    ═══════════════════════════════════════════════════ -->
+
+    <!-- CLIENT -->
+    <mxCell id="actor_client" value="Client" style="shape=mxgraph.uml.actor;whiteSpace=wrap;html=1;strokeColor=#444441;fillColor=#F1EFE8;labelPosition=center;verticalLabelPosition=bottom;verticalAlign=top;fontSize=13;fontStyle=1;" vertex="1" parent="1">
+      <mxGeometry x="60" y="210" width="60" height="80" as="geometry" />
+    </mxCell>
+
+    <!-- SERVEUSE -->
+    <mxCell id="actor_serveuse" value="Serveuse" style="shape=mxgraph.uml.actor;whiteSpace=wrap;html=1;strokeColor=#444441;fillColor=#F1EFE8;labelPosition=center;verticalLabelPosition=bottom;verticalAlign=top;fontSize=13;fontStyle=1;" vertex="1" parent="1">
+      <mxGeometry x="60" y="490" width="60" height="80" as="geometry" />
+    </mxCell>
+
+    <!-- CUISINIER -->
+    <mxCell id="actor_cuisinier" value="Cuisinier" style="shape=mxgraph.uml.actor;whiteSpace=wrap;html=1;strokeColor=#444441;fillColor=#F1EFE8;labelPosition=center;verticalLabelPosition=bottom;verticalAlign=top;fontSize=13;fontStyle=1;" vertex="1" parent="1">
+      <mxGeometry x="1050" y="490" width="60" height="80" as="geometry" />
+    </mxCell>
+
+    <!-- ═══════════════════════════════════════════════════
+         CAS D'UTILISATION — COMMUN (gris)
+    ═══════════════════════════════════════════════════ -->
+    <mxCell id="uc_login" value="Se connecter" style="ellipse;whiteSpace=wrap;html=1;fillColor=#F1EFE8;strokeColor=#5F5E5A;strokeWidth=1.5;fontSize=13;fontStyle=1;fontColor=#2C2C2A;" vertex="1" parent="1">
+      <mxGeometry x="460" y="100" width="200" height="60" as="geometry" />
+    </mxCell>
+
+    <!-- ═══════════════════════════════════════════════════
+         CAS D'UTILISATION — CLIENT + SERVEUSE (bleu)
+    ═══════════════════════════════════════════════════ -->
+    <mxCell id="uc_menu" value="Parcourir le menu" style="ellipse;whiteSpace=wrap;html=1;fillColor=#E6F1FB;strokeColor=#185FA5;strokeWidth=1.5;fontSize=13;fontStyle=1;fontColor=#0C447C;" vertex="1" parent="1">
+      <mxGeometry x="360" y="210" width="200" height="60" as="geometry" />
+    </mxCell>
+
+    <mxCell id="uc_commander" value="Commander des plats" style="ellipse;whiteSpace=wrap;html=1;fillColor=#E6F1FB;strokeColor=#185FA5;strokeWidth=1.5;fontSize=13;fontStyle=1;fontColor=#0C447C;" vertex="1" parent="1">
+      <mxGeometry x="360" y="310" width="200" height="60" as="geometry" />
+    </mxCell>
+
+    <!-- ═══════════════════════════════════════════════════
+         CAS D'UTILISATION — SERVEUSE SEULE (teal)
+    ═══════════════════════════════════════════════════ -->
+    <mxCell id="uc_encours" value="Voir commandes en cours" style="ellipse;whiteSpace=wrap;html=1;fillColor=#E1F5EE;strokeColor=#0F6E56;strokeWidth=1.5;fontSize=13;fontStyle=1;fontColor=#085041;" vertex="1" parent="1">
+      <mxGeometry x="440" y="430" width="230" height="60" as="geometry" />
+    </mxCell>
+
+    <mxCell id="uc_recues" value="Voir commandes recues" style="ellipse;whiteSpace=wrap;html=1;fillColor=#E1F5EE;strokeColor=#0F6E56;strokeWidth=1.5;fontSize=13;fontStyle=1;fontColor=#085041;" vertex="1" parent="1">
+      <mxGeometry x="440" y="520" width="230" height="60" as="geometry" />
+    </mxCell>
+
+    <mxCell id="uc_facture" value="Generer une facture" style="ellipse;whiteSpace=wrap;html=1;fillColor=#E1F5EE;strokeColor=#0F6E56;strokeWidth=1.5;fontSize=13;fontStyle=1;fontColor=#085041;" vertex="1" parent="1">
+      <mxGeometry x="440" y="610" width="230" height="60" as="geometry" />
+    </mxCell>
+
+    <!-- ═══════════════════════════════════════════════════
+         CAS D'UTILISATION — CUISINIER SEUL (coral)
+    ═══════════════════════════════════════════════════ -->
+    <mxCell id="uc_crud" value="Gerer les plats (CRUD)" style="ellipse;whiteSpace=wrap;html=1;fillColor=#FAECE7;strokeColor=#993C1D;strokeWidth=1.5;fontSize=13;fontStyle=1;fontColor=#712B13;" vertex="1" parent="1">
+      <mxGeometry x="680" y="430" width="230" height="60" as="geometry" />
+    </mxCell>
+
+    <mxCell id="uc_traiter" value="Commencer / annuler commande" style="ellipse;whiteSpace=wrap;html=1;fillColor=#FAECE7;strokeColor=#993C1D;strokeWidth=1.5;fontSize=13;fontStyle=1;fontColor=#712B13;" vertex="1" parent="1">
+      <mxGeometry x="680" y="520" width="230" height="60" as="geometry" />
+    </mxCell>
+
+    <mxCell id="uc_notif" value="Notifier la serveuse" style="ellipse;whiteSpace=wrap;html=1;fillColor=#FAECE7;strokeColor=#993C1D;strokeWidth=1.5;fontSize=13;fontStyle=1;fontColor=#712B13;" vertex="1" parent="1">
+      <mxGeometry x="680" y="610" width="230" height="60" as="geometry" />
+    </mxCell>
+
+    <!-- ═══════════════════════════════════════════════════
+         ASSOCIATIONS — CLIENT
+    ═══════════════════════════════════════════════════ -->
+    <mxCell id="e1" style="edgeStyle=orthogonalEdgeStyle;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;endArrow=none;strokeColor=#888780;" edge="1" source="actor_client" target="uc_login" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+    <mxCell id="e2" style="edgeStyle=orthogonalEdgeStyle;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;endArrow=none;strokeColor=#888780;" edge="1" source="actor_client" target="uc_menu" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+    <mxCell id="e3" style="edgeStyle=orthogonalEdgeStyle;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;endArrow=none;strokeColor=#888780;" edge="1" source="actor_client" target="uc_commander" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <!-- ═══════════════════════════════════════════════════
+         ASSOCIATIONS — SERVEUSE
+    ═══════════════════════════════════════════════════ -->
+    <mxCell id="e4" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=none;strokeColor=#888780;" edge="1" source="actor_serveuse" target="uc_login" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+    <mxCell id="e5" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=none;strokeColor=#888780;" edge="1" source="actor_serveuse" target="uc_menu" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+    <mxCell id="e6" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=none;strokeColor=#888780;" edge="1" source="actor_serveuse" target="uc_commander" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+    <mxCell id="e7" style="edgeStyle=orthogonalEdgeStyle;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;endArrow=none;strokeColor=#888780;" edge="1" source="actor_serveuse" target="uc_encours" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+    <mxCell id="e8" style="edgeStyle=orthogonalEdgeStyle;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;endArrow=none;strokeColor=#888780;" edge="1" source="actor_serveuse" target="uc_recues" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+    <mxCell id="e9" style="edgeStyle=orthogonalEdgeStyle;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;endArrow=none;strokeColor=#888780;" edge="1" source="actor_serveuse" target="uc_facture" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <!-- ═══════════════════════════════════════════════════
+         ASSOCIATIONS — CUISINIER
+    ═══════════════════════════════════════════════════ -->
+    <mxCell id="e10" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=none;strokeColor=#888780;" edge="1" source="actor_cuisinier" target="uc_login" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+    <mxCell id="e11" style="edgeStyle=orthogonalEdgeStyle;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;endArrow=none;strokeColor=#888780;" edge="1" source="actor_cuisinier" target="uc_crud" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+    <mxCell id="e12" style="edgeStyle=orthogonalEdgeStyle;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;endArrow=none;strokeColor=#888780;" edge="1" source="actor_cuisinier" target="uc_traiter" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+    <mxCell id="e13" style="edgeStyle=orthogonalEdgeStyle;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;endArrow=none;strokeColor=#888780;" edge="1" source="actor_cuisinier" target="uc_notif" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <!-- ═══════════════════════════════════════════════════
+         RELATIONS <<include>>
+    ═══════════════════════════════════════════════════ -->
+    <mxCell id="inc1" value="&lt;&lt;include&gt;&gt;" style="edgeStyle=orthogonalEdgeStyle;html=1;dashed=1;dashPattern=6 3;endArrow=open;endFill=0;strokeColor=#185FA5;fontColor=#185FA5;fontSize=11;fontStyle=2;" edge="1" source="uc_commander" target="uc_menu" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <mxCell id="inc2" value="&lt;&lt;include&gt;&gt;" style="edgeStyle=orthogonalEdgeStyle;html=1;dashed=1;dashPattern=6 3;endArrow=open;endFill=0;strokeColor=#993C1D;fontColor=#993C1D;fontSize=11;fontStyle=2;" edge="1" source="uc_notif" target="uc_traiter" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <!-- ═══════════════════════════════════════════════════
+         LÉGENDE
+    ═══════════════════════════════════════════════════ -->
+    <mxCell id="leg_bg" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FAFAFA;strokeColor=#CCCCCC;strokeWidth=1;" vertex="1" parent="1">
+      <mxGeometry x="240" y="720" width="680" height="50" as="geometry" />
+    </mxCell>
+    <mxCell id="leg_t" value="Legende :" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+      <mxGeometry x="250" y="728" width="90" height="34" as="geometry" />
+    </mxCell>
+    <mxCell id="leg1" value="Commun" style="ellipse;html=1;fillColor=#F1EFE8;strokeColor=#5F5E5A;fontSize=11;" vertex="1" parent="1">
+      <mxGeometry x="340" y="728" width="100" height="34" as="geometry" />
+    </mxCell>
+    <mxCell id="leg2" value="Client + Serveuse" style="ellipse;html=1;fillColor=#E6F1FB;strokeColor=#185FA5;fontSize=11;" vertex="1" parent="1">
+      <mxGeometry x="450" y="728" width="130" height="34" as="geometry" />
+    </mxCell>
+    <mxCell id="leg3" value="Serveuse seule" style="ellipse;html=1;fillColor=#E1F5EE;strokeColor=#0F6E56;fontSize=11;" vertex="1" parent="1">
+      <mxGeometry x="590" y="728" width="120" height="34" as="geometry" />
+    </mxCell>
+    <mxCell id="leg4" value="Cuisinier seul" style="ellipse;html=1;fillColor=#FAECE7;strokeColor=#993C1D;fontSize=11;" vertex="1" parent="1">
+      <mxGeometry x="720" y="728" width="110" height="34" as="geometry" />
+    </mxCell>
+    <mxCell id="leg5" value="- - - -&gt; &lt;&lt;include&gt;&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=11;fontStyle=2;" vertex="1" parent="1">
+      <mxGeometry x="840" y="728" width="170" height="34" as="geometry" />
+    </mxCell>
+
+  </root>
+</mxGraphModel>
