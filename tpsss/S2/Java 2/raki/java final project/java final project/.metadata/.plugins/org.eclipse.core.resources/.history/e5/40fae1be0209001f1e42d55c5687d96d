@@ -1,0 +1,70 @@
+package metier;
+
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+import dao.PlatscommandeDAO;
+import dao.SingletonConnection;
+
+
+public class Commande {
+    private int idCommande;
+    private int idClient;
+    private int etat;
+    private List<Plat> plats = new ArrayList<>();
+    private Connection connect=SingletonConnection.getInstance();
+    PlatscommandeDAO pc = new PlatscommandeDAO();
+
+ 
+    public Commande() {
+    	super();
+    }
+
+    public Commande(int idCommande, int idC) throws SQLException {
+        this.idCommande = idCommande;
+        this.idClient = idC;
+        this.etat = 0;
+        this.plats=pc.getPlatCommande(idC);
+    }
+
+
+    public int getIdCommande() {
+        return idCommande;
+    }
+
+
+    public void setIdCommande(int idCommande) {
+        this.idCommande = idCommande;
+    }
+
+    public int getIdClient() {
+        return idClient;
+    }
+
+
+    public void setIdClient(int idC) {
+        this.idClient = idC;
+    }
+
+
+    public int isEnCours() {
+        return etat;
+    }
+
+
+    public void setEtat(int enCours) {
+        this.etat = enCours;
+    }
+    public double calculerFacture() {
+        double prixTotal = 0.0;
+        for (Plat plat : plats) {
+            prixTotal += plat.getPrix();
+        }
+        return prixTotal;
+    }
+
+    
+}
+

@@ -1,0 +1,53 @@
+package presentation;
+
+import javax.swing.*;
+
+public class Choisir extends JFrame {
+    private JComboBox<String> comboBox;
+
+    public Choisir() {
+        setTitle("Choisir un rôle");
+        setSize(300, 150);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
+
+        String[] roles = {"Client", "Serveur", "Chef"};
+        comboBox = new JComboBox<>(roles);
+        comboBox.setSelectedIndex(0);
+
+        JButton btnChoisir = new JButton("Choisir");
+        
+        
+        btnChoisir.addActionListener(e -> {
+            String selectedRole = (String) comboBox.getSelectedItem();
+            if (selectedRole.equals("Client")) {
+                LoginC loginC = new LoginC(); 
+        
+                dispose(); 
+            } else if(selectedRole.equals("Serveur")) {
+                LoginS loginS = new LoginS();
+                loginS.setVisible(true);
+                dispose();
+            }
+            else {
+            	LoginCH loginCH = new LoginCH();
+            	loginCH.setVisible(true);
+            	dispose();
+            }
+        });
+
+        JPanel panel = new JPanel();
+        panel.add(new JLabel("Choisir un rôle : "));
+        panel.add(comboBox);
+        panel.add(btnChoisir);
+
+        getContentPane().add(panel);
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> {
+            Choisir choisir = new Choisir();
+            choisir.setVisible(true);
+        });
+    }
+}

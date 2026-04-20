@@ -1,0 +1,162 @@
+package presentation;
+
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.SQLException;
+import java.util.List;
+
+import dao.PlatscommandeDAO;
+import metier.Platscommande;
+import metier.Commande;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.LayoutStyle.ComponentPlacement;
+
+public class Serveur extends JFrame {
+    private JTable tablePlatsCommandes;
+
+    public Serveur() {
+        setTitle("Serveur");
+        setSize(732, 383);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
+        // model
+        DefaultTableModel model = new DefaultTableModel();
+        model.addColumn("ID Plat");
+        model.addColumn("ID Client");
+        model.addColumn("Nom Plat");
+        model.addColumn("Quantité");
+
+        // charger model
+        try {
+            PlatscommandeDAO platsCommandeDAO = new PlatscommandeDAO();
+            List<Platscommande> platsCommandes = platsCommandeDAO.getPlatCommande();
+            for (Platscommande pc : platsCommandes) {
+                model.addRow(new Object[]{pc.getIdPlat(), pc.getIdU(),pc.getNomPlat(),pc.getQuantite()});
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, "Erreur lors de la récupération des plats commandés : " + e.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
+        }
+
+        // table de model
+        tablePlatsCommandes = new JTable(model);
+        tablePlatsCommandes.setPreferredScrollableViewportSize(new Dimension(500, 300));
+        tablePlatsCommandes.setFillsViewportHeight(true);
+
+        // JScrollPane
+        JScrollPane scrollPane = new JScrollPane(tablePlatsCommandes);
+        getContentPane().add(scrollPane, BorderLayout.CENTER);
+
+        // panel
+        JPanel buttonPanel = new JPanel();
+        getContentPane().add(buttonPanel, BorderLayout.SOUTH);
+
+        // buttons
+        JButton btnAjouterCommande = new JButton("Ajouter Commande");
+        JButton btnCEncours = new JButton("Commandes en cours");
+        JButton btnCP = new JButton("Commandes reçues");
+        JButton btnLogout = new JButton("Logout");
+        JButton btnMenu = new JButton("Menu");
+        JButton btnRefresh = new JButton ("🔄");
+        
+        btnAjouterCommande.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Commander c = new Commander();
+                c.setVisible(true);
+            }
+        });
+
+      
+        btnCEncours.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                CommandeEnCours cec = new CommandeEnCours();
+                cec.setVisible(true);
+            }
+        });
+
+    
+        btnCP.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                CommandeRecu cr = new CommandeRecu();
+                cr.setVisible(true);
+                dispose();
+            }
+        });
+
+       
+        btnLogout.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Choisir choix = new Choisir();
+                choix.setVisible(true);
+                dispose(); // Close the current frame
+            }
+        });
+       
+        btnMenu.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                MenuAll m = new MenuAll();
+                m.setVisible(true);
+               
+            }
+        });
+    
+        btnRefresh.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Serveur s = new Serveur();
+                s.setVisible(true);
+                dispose();
+            }
+        });
+        
+        GroupLayout gl_buttonPanel = new GroupLayout(buttonPanel);
+        gl_buttonPanel.setHorizontalGroup(
+        	gl_buttonPanel.createParallelGroup(Alignment.LEADING)
+        		.addGroup(gl_buttonPanel.createSequentialGroup()
+        			.addGap(7)
+        			.addComponent(btnAjouterCommande)
+        			.addGap(2)
+        			.addComponent(btnCEncours)
+        			.addPreferredGap(ComponentPlacement.RELATED)
+        			.addComponent(btnCP)
+        			.addGap(18)
+        			.addComponent(btnRefresh)
+        			.addGap(18)
+        			.addComponent(btnLogout)
+        			.addPreferredGap(ComponentPlacement.RELATED)
+        			.addComponent(btnMenu)
+        			.addGap(159))
+        );
+        gl_buttonPanel.setVerticalGroup(
+        	gl_buttonPanel.createParallelGroup(Alignment.LEADING)
+        		.addGroup(gl_buttonPanel.createSequentialGroup()
+        			.addGap(5)
+        			.addGroup(gl_buttonPanel.createParallelGroup(Alignment.BASELINE)
+        				.addComponent(btnAjouterCommande)
+        				.addComponent(btnCEncours)
+        				.addComponent(btnCP)
+        				.addComponent(btnRefresh)
+        				.addComponent(btnLogout)
+        				.addComponent(btnMenu)))
+        );
+        buttonPanel.setLayout(gl_buttonPanel);
+    }
+        
+    
+   
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> {
+            Serveur serveur = new Serveur();
+            serveur.setVisible(true);
+        });
+    }
+}
+

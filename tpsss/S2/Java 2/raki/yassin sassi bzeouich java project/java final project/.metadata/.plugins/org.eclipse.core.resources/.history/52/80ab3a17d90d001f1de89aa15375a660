@@ -1,0 +1,58 @@
+package presentation;
+
+import dao.PlatDAO;
+import metier.Plat;
+
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import java.awt.*;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.List;
+
+public class MenuAll extends JFrame {
+    private JTable tablePlats;
+
+    public MenuAll() {
+        setTitle("Tous les plats");
+        setSize(600, 400);
+        
+        setLocationRelativeTo(null);
+
+        // Créer un modèle de table
+        DefaultTableModel model = new DefaultTableModel();
+        model.addColumn("ID");
+        model.addColumn("Nom");
+        model.addColumn("Type");
+        model.addColumn("Prix");
+
+        // Récupérer les données des plats depuis la base de données
+        try {
+        	PlatDAO pdao=new PlatDAO();
+            List<Plat> plats = pdao.getAllPlat(); // Supposons que vous avez une méthode pour récupérer tous les plats de la base de données
+            for (Plat plat : plats) {
+                model.addRow(new Object[]{plat.getIdPlat(), plat.getNomPlat(), plat.getType(), plat.getPrix()});
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, "Erreur lors de la récupération des plats : " + e.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
+        }
+
+        // Créer la table avec le modèle
+        tablePlats = new JTable(model);
+        tablePlats.setPreferredScrollableViewportSize(new Dimension(500, 300));
+        tablePlats.setFillsViewportHeight(true);
+
+        // Ajouter la table à un JScrollPane
+        JScrollPane scrollPane = new JScrollPane(tablePlats);
+
+        getContentPane().add(scrollPane);
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> {
+            MenuAll menuAll = new MenuAll();
+            menuAll.setVisible(true);
+        });
+    }
+}
+

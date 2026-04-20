@@ -1,0 +1,72 @@
+package presentation;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.SQLException;
+import dao.PlatDAO;
+import metier.Plat;
+
+public class ModifPlat extends JFrame {
+    private JTextField txtNomPlat;
+    private JTextField txtType;
+    private JTextField txtPrix;
+    private JButton btnModifier;
+    private int idPlat;
+
+    public ModifPlat(int idPlat) {
+        this.idPlat = idPlat;
+        setTitle("Modifier Plat");
+        setSize(400, 200);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setLocationRelativeTo(null);
+
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        getContentPane().add(panel);
+        JLabel lblNomPlat = new JLabel("Nom du Plat:");
+        JLabel lblType = new JLabel("Type:");
+        JLabel lblPrix = new JLabel("Prix:");
+
+        txtNomPlat = new JTextField();
+        txtType = new JTextField();
+        txtPrix = new JTextField();
+        String nom = txtNomPlat.getText();
+        String type = txtType.getText();
+        Double prix = Double.parseDouble(txtPrix.getText());
+        
+
+        panel.add(lblNomPlat);
+        panel.add(txtNomPlat);
+        panel.add(lblType);
+        panel.add(txtType);
+        panel.add(lblPrix);
+        panel.add(txtPrix);
+
+        btnModifier = new JButton("Modifier");
+        btnModifier.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+            	PlatDAO pdo = new PlatDAO();
+            	Plat p=new Plat(idPlat,nom,prix,type);          	
+            	try {
+					pdo.modifierMenu(p);
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+            	
+            	
+            	
+            }
+
+            
+        }); panel.add(btnModifier);}
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> {
+            int idPlat = 0; 
+            ModifPlat modifPlat = new ModifPlat(idPlat);
+            modifPlat.setVisible(true);
+        });
+    }
+    }

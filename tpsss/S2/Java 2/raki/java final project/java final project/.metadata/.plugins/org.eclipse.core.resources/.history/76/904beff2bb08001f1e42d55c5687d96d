@@ -1,0 +1,54 @@
+package dao;
+
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import metier.Commande;
+
+public class CommandeDAO {
+    Connection connection=SingletonConnection.getInstance();
+
+ 
+
+    public void ajouterCommande(Commande commande) throws SQLException {
+        String sql = "INSERT INTO commande (idC, etat, idU) VALUES (?, ?, ?)";
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, commande.getIdCommande());
+            statement.setInt(2, commande.getIdClient());
+            statement.setInt(3, commande.isEnCours());
+            statement.executeUpdate();
+        }
+    }
+
+    public List<Commande> getCommandesEnCours() throws SQLException {
+        List<Commande> commandes = new ArrayList<>();
+        String sql = "SELECT * FROM commande WHERE etat = 1";
+        try (PreparedStatement statement = connection.prepareStatement(sql);
+             ResultSet resultSet = statement.executeQuery()) {
+            while (resultSet.next()) {
+                Commande commande = new Commande();
+                commande.setIdCommande(resultSet.getInt("idCommande"));
+                commande.setIdClient(resultSet.getInt("idU"));
+                commande.setEtat(resultSet.getInt("etat"));
+                commandes.add(commande);
+            }
+        }
+        return commandes;
+    }
+
+    public void mettreAJourCommande(Commande commande) throws SQLException {
+        String sql = "UPDATE commande SET etat = ? WHERE idCommande = ?";
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, commande.isEnCours());
+            statement.setInt(2, commande.getIdCommande());
+            statement.executeUpdate();
+        }
+    }
+
+
+}
+

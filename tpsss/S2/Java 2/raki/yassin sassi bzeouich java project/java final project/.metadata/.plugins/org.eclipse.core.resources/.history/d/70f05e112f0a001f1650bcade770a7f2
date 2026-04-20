@@ -1,0 +1,75 @@
+package metier;
+
+import java.sql.SQLException;
+
+public class Commande {
+    private int idCommande;
+    private int idClient;
+    private int idPlat;
+    private String nomPlat;
+    private String etat;
+    private int quantiteP;
+
+    public Commande() {
+        super();
+    }
+
+    public Commande(int idCommande, int idClient, int idPlat, String nomPlat, int q) throws SQLException {
+        this.idCommande = idCommande;
+        this.idClient = idClient;
+        this.idPlat = idPlat;
+        this.nomPlat = nomPlat;
+        this.etat = "à faire";
+        this.quantiteP = q;
+    }
+
+    public int getIdCommande() {
+        return idCommande;
+    }
+
+    public void setIdCommande(int idCommande) {
+        this.idCommande = idCommande;
+    }
+
+    public int getIdClient() {
+        return idClient;
+    }
+
+    public void setIdClient(int idClient) {
+        this.idClient = idClient;
+    }
+
+    public int getIdPlat() {
+        return idPlat;
+    }
+
+    public void setIdPlat(int idPlat) {
+        this.idPlat = idPlat;
+    }
+
+    public String getNomPlat() {
+        return nomPlat;
+    }
+
+    public void setNomPlat(String nomPlat) {
+        this.nomPlat = nomPlat;
+    }
+
+    public String getEtat() {
+        return etat;
+    }
+
+    public void setEtat(String etat) {
+        this.etat = etat;
+    }
+
+    public int getQuantiteP() {
+        return quantiteP;
+    }
+
+    public void setQuantiteP(int quantiteP) {
+        this.quantiteP = quantiteP;
+    }
+}
+
+

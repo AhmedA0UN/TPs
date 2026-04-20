@@ -1,0 +1,102 @@
+package presentation;
+import javax.swing.*;
+
+import dao.CommandeDAO;
+import dao.PlatscommandeDAO;
+import dao.UtilisateurDAO;
+import metier.Commande;
+
+import java.sql.SQLException;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.LayoutStyle.ComponentPlacement;
+public class Commander extends JFrame {
+	 private JTextField txtIdCommande;
+	 private JTextField txtIdClient;
+	 public Commander(){
+		 setTitle("Commander");
+	        setSize(300, 231);
+	        setLocationRelativeTo(null);
+	        //panel
+	        JPanel panel = new JPanel();
+
+	        //label
+	        JLabel lblIdC = new JLabel("Id commande : ");
+	        lblIdC.setBounds(7, 0, 145, 13);
+	        txtIdCommande = new JTextField(10);
+	        txtIdCommande.setBounds(0, 19, 286, 40);
+
+	        JLabel lblIdClient = new JLabel("Id Client : ");
+	        lblIdClient.setBounds(10, 65, 119, 13);
+	        txtIdClient = new JTextField(10);
+	        txtIdClient.setBounds(0, 88, 286, 43);
+
+	
+	        //declarer buttons 
+	        JButton btnAjouter = new JButton("Ajouter commande");
+	        //buttons
+	        btnAjouter.setBounds(53, 152, 163, 21);
+	        btnAjouter.addActionListener(new ActionListener() {
+	            @Override
+	            public void actionPerformed(ActionEvent e) {
+	                String idt = txtIdCommande.getText();
+	          
+	                if (idt.matches("-?\\d+(\\.\\d+)?")!=true) {
+	                	JOptionPane.showMessageDialog(Commander.this, "Id doit etre entier : " , "Erreur", JOptionPane.ERROR_MESSAGE);
+	                	return;
+	                	
+	                }
+	                int idCO = Integer.parseInt(idt);
+	                if(txtIdClient.getText().matches("-?\\d+(\\.\\d+)?")!=true) {
+	                	JOptionPane.showMessageDialog(Commander.this, "Id doit etre entier : " , "Erreur", JOptionPane.ERROR_MESSAGE);
+	                	return;
+	                	
+	                }
+	                int idC = Integer.parseInt(txtIdClient.getText());
+	                PlatscommandeDAO test=new PlatscommandeDAO();
+	                CommandeDAO cdao = new CommandeDAO();
+
+	                // Vérifier si l'identifiant a commandé"
+	                try {
+	                    if (cdao.existeCommande(idCO) == 1) {
+	                        JOptionPane.showMessageDialog(Commander.this, "Cet identifiant commande est déjà utilisé. Veuillez en choisir un autre.", "Erreur", JOptionPane.ERROR_MESSAGE);
+	                        return; // Arrêter le traitement 
+	                    }
+	                    if (test.existeClient(idC)==0) {
+	                    	JOptionPane.showMessageDialog(Commander.this, "Ce Client n'est pas commandé. Veuillez en choisir un autre.", "Erreur", JOptionPane.ERROR_MESSAGE);
+	                        return; // Arrêter le traitement
+	                    }
+	                    Commande co = new Commande(idCO,idC);
+	                    cdao.ajouterCommande(co);
+	                    JOptionPane.showMessageDialog(Commander.this, "Commander réussi pour  ");
+	                    dispose();
+	                } catch (SQLException ex) {
+	                    ex.printStackTrace(); // Gérer l'erreur de base de données
+	                    JOptionPane.showMessageDialog(Commander.this, "Erreur lors de commander : " + ex.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
+	                }
+	            }
+	        });
+	  ;
+	   
+
+	  
+	  		//ajouter panel+lbl+buttons
+	        getContentPane().add(panel);
+	        panel.setLayout(null);
+	        panel.add(lblIdC);
+	        panel.add(txtIdCommande);
+	        panel.add(lblIdClient);
+	        panel.add(txtIdClient);
+	        panel.add(btnAjouter);
+	    }
+
+	    public static void main(String[] args) {
+	        SwingUtilities.invokeLater(() -> {
+	            Commander inscription = new Commander();
+	            inscription.setVisible(true);
+	        });
+	    }
+	}
+		 
+	

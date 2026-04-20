@@ -1,0 +1,47 @@
+package presentation;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.SQLException;
+
+import metier.Commande;
+
+public class Facture extends JFrame {
+    private JTextField txtIdCommande;
+    
+    public Facture() {
+        setTitle("Facture");
+        setSize(261, 93);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setLocationRelativeTo(null);
+        
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        
+        JLabel lblIdCommande = new JLabel("ID de la commande : ");
+        txtIdCommande = new JTextField(10);
+        
+        JButton btnCalculer = new JButton("Calculer");
+        btnCalculer.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+               
+            }
+        });
+        
+        panel.add(lblIdCommande);
+        panel.add(txtIdCommande);
+        panel.add(btnCalculer);
+        
+        getContentPane().add(panel);
+    }
+    
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> {
+            Facture facture = new Facture();
+            facture.setVisible(true);
+        });
+    }
+}

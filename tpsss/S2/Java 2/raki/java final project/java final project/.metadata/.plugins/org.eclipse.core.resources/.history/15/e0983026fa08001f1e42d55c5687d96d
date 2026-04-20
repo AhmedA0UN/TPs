@@ -1,0 +1,67 @@
+package presentation;
+
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+public class Menu extends JFrame {
+    private JComboBox<String> comboBox;
+    private int id;
+   
+
+    public Menu(int id) {
+    	this.id=id;
+        setTitle("Choisir un menu");
+        setSize(300, 150);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
+
+        String[] menus = {"Menu Salé", "Menu Sucré"};
+        comboBox = new JComboBox<>(menus);
+        comboBox.setSelectedIndex(0);
+
+        JButton btnChoisir = new JButton("Choisir");
+        btnChoisir.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String selectedMenu = (String) comboBox.getSelectedItem();
+                if (selectedMenu.equals("Menu Salé")) {
+                    ClientS clientS = new ClientS(id);
+                    clientS.setVisible(true);
+                    dispose();
+                } else {
+                	ClientSu clientSu = new ClientSu(id);
+                    clientSu.setVisible(true);
+                    dispose();
+                    
+                }
+            }
+        });
+        JButton btnLogout = new JButton("Logout");
+        btnLogout.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Choisir choix=new Choisir();
+                choix.setVisible(true);
+                dispose();}
+        });
+
+        JPanel panel = new JPanel();
+        panel.add(new JLabel("Choisir un menu : "));
+        panel.add(comboBox);
+        panel.add(btnChoisir);
+        panel.add(btnLogout);
+        JLabel lblId = new JLabel("ID utilisateur : " + id); // Utiliser l'ID dans la création du label
+        panel.add(lblId);
+
+        getContentPane().add(panel);
+    }
+
+    public static void main(String[] args) {
+    	int id=0;
+        SwingUtilities.invokeLater(() -> {
+            Menu menu = new Menu(id);
+            menu.setVisible(true);
+        });
+    }
+}

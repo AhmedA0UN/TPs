@@ -1,0 +1,157 @@
+package presentation;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.SQLException;
+import dao.PlatDAO;
+import metier.Plat;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.LayoutStyle.ComponentPlacement;
+
+public class AjoutPlat extends JFrame {
+	private JTextField txtIdPlat;
+	private JTextField txtNomPlat;
+    private JTextField txtType;
+    private JTextField txtPrix;
+    private JButton btnAjouter;
+    private JButton btnAnnuler;
+    private int idPlat;
+
+    public AjoutPlat() {
+        
+        setTitle("Ajouter Plat");
+        setSize(463, 341);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setLocationRelativeTo(null);
+
+        JPanel panel = new JPanel();
+        getContentPane().add(panel);
+
+        JLabel lblNomPlat = new JLabel("Nom du Plat:");
+        JLabel lblType = new JLabel("Type:");
+        JLabel lblPrix = new JLabel("Prix:");
+ 
+        txtNomPlat = new JTextField();
+        txtType = new JTextField();
+        txtPrix = new JTextField();
+        btnAjouter = new JButton("Ajouter");
+        btnAnnuler = new JButton("Annuler");
+        btnAjouter.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+            	PlatDAO pdo = new PlatDAO();
+            	 
+            	  String type ="" ;
+            	  if (txtType.getText().equals("salé") || txtType.getText().equals("sucré") ) {
+            		  type=txtType.getText();
+            		  
+            	  }else JOptionPane.showMessageDialog(AjoutPlat.this, "plat doit etre de type : salé ou sucré", "WARNING", JOptionPane.WARNING_MESSAGE);
+                  String nom = txtNomPlat.getText();
+                  double prix=0;
+                  if (pdo.isDouble(txtPrix.getText())) {
+                	  prix = Double.parseDouble(txtPrix.getText());
+                  }else JOptionPane.showMessageDialog(AjoutPlat.this, "prix doit etre de type double", "WARNING", JOptionPane.WARNING_MESSAGE);
+                  
+            	Plat p=new Plat(idPlat,nom,prix,type);
+            	
+            	try {
+            		
+            			pdo.ajouterPlat(p);
+            			Chef c = new Chef();
+            			c.setVisible(true);
+            			dispose();
+            		
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
+            	
+            	
+            	
+            }
+
+            
+        }); 
+        btnAnnuler.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+            	
+					Chef c = new Chef();
+					c.setVisible(true);
+					dispose();
+				
+            	
+            	
+            	
+            }
+
+            
+        });
+        GroupLayout gl_panel = new GroupLayout(panel);
+        gl_panel.setHorizontalGroup(
+        	gl_panel.createParallelGroup(Alignment.LEADING)
+        		.addGroup(gl_panel.createSequentialGroup()
+        			.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+        				.addGroup(gl_panel.createSequentialGroup()
+        					.addGap(133)
+        					.addComponent(btnAjouter)
+        					.addGap(30)
+        					.addComponent(btnAnnuler))
+        				.addGroup(gl_panel.createSequentialGroup()
+        					.addGap(198)
+        					.addComponent(lblType))
+        				.addGroup(gl_panel.createSequentialGroup()
+        					.addGap(71)
+        					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING, false)
+        						.addComponent(txtType, Alignment.TRAILING)
+        						
+        						.addComponent(txtNomPlat)
+        						.addComponent(txtPrix, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 309, Short.MAX_VALUE)))
+        				.addGroup(gl_panel.createSequentialGroup()
+        					.addGap(184)
+        					.addComponent(lblNomPlat))
+        				.addGroup(gl_panel.createSequentialGroup()
+        					.addGap(204)
+        					.addComponent(lblPrix))
+        				.addGroup(gl_panel.createSequentialGroup()
+        					.addGap(195)
+        			
+        );
+        gl_panel.setVerticalGroup(
+        	gl_panel.createParallelGroup(Alignment.LEADING)
+        		.addGroup(gl_panel.createSequentialGroup()
+        			.addContainerGap()
+        			
+        			.addPreferredGap(ComponentPlacement.RELATED)
+        			.addComponent(txtIdPlat, GroupLayout.PREFERRED_SIZE, 28, GroupLayout.PREFERRED_SIZE)
+        			.addPreferredGap(ComponentPlacement.RELATED)
+        			.addComponent(lblNomPlat)
+        			.addPreferredGap(ComponentPlacement.RELATED)
+        			.addComponent(txtNomPlat, GroupLayout.PREFERRED_SIZE, 28, GroupLayout.PREFERRED_SIZE)
+        			.addPreferredGap(ComponentPlacement.RELATED)
+        			.addComponent(lblType)
+        			.addPreferredGap(ComponentPlacement.RELATED)
+        			.addComponent(txtType, GroupLayout.PREFERRED_SIZE, 28, GroupLayout.PREFERRED_SIZE)
+        			.addPreferredGap(ComponentPlacement.RELATED)
+        			.addComponent(lblPrix)
+        			.addPreferredGap(ComponentPlacement.RELATED)
+        			.addComponent(txtPrix, GroupLayout.PREFERRED_SIZE, 28, GroupLayout.PREFERRED_SIZE)
+        			.addGap(18)
+        			.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
+        				.addComponent(btnAjouter)
+        				.addComponent(btnAnnuler))
+        			.addGap(3))
+        );
+        panel.setLayout(gl_panel);
+        }
+
+      
+
+    
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> {
+           
+            AjoutPlat modifPlat = new AjoutPlat();
+            modifPlat.setVisible(true);
+        });
+    }
+    }

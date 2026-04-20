@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<qualifiedTypeNameHistroy>
+    <fullyQualifiedTypeName name="java.awt.Menu"/>
+    <fullyQualifiedTypeName name="metier.Menu"/>
+    <fullyQualifiedTypeName name="metier.Utilisateur"/>
+    <fullyQualifiedTypeName name="dao.SingletonConnection"/>
+    <fullyQualifiedTypeName name="metier.Commande"/>
+    <fullyQualifiedTypeName name="metier.Plat"/>
+    <fullyQualifiedTypeName name="dao.CommandeDAO"/>
+    <fullyQualifiedTypeName name="dao.PlatscommandeDAO"/>
+    <fullyQualifiedTypeName name="metier.Platscommande"/>
+    <fullyQualifiedTypeName name="java.lang.System"/>
+    <fullyQualifiedTypeName name="dao.UtilisateurDAO"/>
+</qualifiedTypeNameHistroy>

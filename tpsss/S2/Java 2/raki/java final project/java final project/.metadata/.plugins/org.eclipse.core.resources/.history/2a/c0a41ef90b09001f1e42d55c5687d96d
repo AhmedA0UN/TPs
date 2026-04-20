@@ -1,0 +1,69 @@
+package presentation;
+
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.SQLException;
+import java.util.List;
+
+import metier.Commande;
+import metier.Platscommande;
+
+public class Facturefinal extends JFrame {
+    private int idUtilisateur;
+    private JTable tablePlatsCommandes;
+
+    public Facturefinal(int idU) {
+        this.idUtilisateur = idU;
+        setTitle("Facture");
+        setSize(600, 400);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
+
+        DefaultTableModel model = new DefaultTableModel();
+        model.addColumn("ID Plat");
+        model.addColumn("Quantité");
+        model.addColumn("Prix Unitaire");
+        model.addColumn("Sous-total");
+
+        // Charger les plats commandés de l'utilisateur depuis la base de données
+        try {
+            Commande commande = new Commande();
+            List<Plats> platsCommandes = commande.getPlatsCommandesUtilisateur(idU);
+            for (Platscommande pc : platsCommandes) {
+                model.addRow(new Object[]{pc.getIdPlat(), pc.getQuantite(), pc.getPrixUnitaire(), pc.getSousTotal()});
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, "Erreur lors de la récupération des plats commandés : " + e.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
+        }
+
+        // Création de la table avec le modèle
+        tablePlatsCommandes = new JTable(model);
+        tablePlatsCommandes.setPreferredScrollableViewportSize(new Dimension(500, 300));
+        tablePlatsCommandes.setFillsViewportHeight(true);
+
+        // Ajout de la table à un JScrollPane
+        JScrollPane scrollPane = new JScrollPane(tablePlatsCommandes);
+        getContentPane().add(scrollPane);
+
+        // Bouton "Fermer"
+        JButton btnFermer = new JButton("Fermer");
+        btnFermer.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+            }
+        });
+        getContentPane().add(btnFermer, BorderLayout.SOUTH);
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> {
+            int idUtilisateur = 0; // Remplacez 0 par l'ID de l'utilisateur concerné
+            Facturefinal facturefinal = new Facturefinal(idUtilisateur);
+            facturefinal.setVisible(true);
+        });
+    }
+}

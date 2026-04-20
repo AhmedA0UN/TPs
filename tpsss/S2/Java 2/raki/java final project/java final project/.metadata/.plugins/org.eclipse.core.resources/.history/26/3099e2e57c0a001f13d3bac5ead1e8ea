@@ -1,0 +1,102 @@
+package presentation;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.SQLException;
+import dao.PlatDAO;
+import metier.Plat;
+
+public class AjoutPlat extends JFrame {
+	private JTextField txtIdPlat;
+	private JTextField txtNomPlat;
+    private JTextField txtType;
+    private JTextField txtPrix;
+    private JButton btnAjouter;
+    private JButton btnAnnuler;
+    private int idPlat;
+
+    public AjoutPlat() {
+        
+        setTitle("Ajouter Plat");
+        setSize(400, 200);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setLocationRelativeTo(null);
+
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        getContentPane().add(panel);
+        JLabel lblIdPlat = new JLabel("Id Plat");
+        JLabel lblNomPlat = new JLabel("Nom du Plat:");
+        JLabel lblType = new JLabel("Type:");
+        JLabel lblPrix = new JLabel("Prix:");
+        txtIdPlat = new JTextField();
+        txtNomPlat = new JTextField();
+        txtType = new JTextField();
+        txtPrix = new JTextField();
+        panel.add(lblIdPlat);
+        panel.add(txtIdPlat);
+        panel.add(lblNomPlat);
+        panel.add(txtNomPlat);
+        panel.add(lblType);
+        panel.add(txtType);
+        panel.add(lblPrix);
+        panel.add(txtPrix);
+        btnAjouter = new JButton("Ajouter");
+        btnAnnuler = new JButton("Annuler");
+        btnAjouter.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+            	PlatDAO pdo = new PlatDAO();
+            	  int idPlat = Integer.parseInt(txtIdPlat.getText());
+            	  String type = txtType.getText();
+                  String nom = txtNomPlat.getText();
+                  double prix = Double.parseDouble(txtPrix.getText());
+            	Plat p=new Plat(idPlat,nom,prix,type);
+            	
+            	try {
+            		if (!(p.existe(idPlat))) {
+            			pdo.ajouterPlat(p);
+            			Chef c = new Chef();
+            			c.setVisible(true);
+            			dispose();
+            		}else JOptionPane.showMessageDialog(AjoutPlat.this, "Cet id est déjà utilisé. Veuillez en choisir un autre.", "Erreur", JOptionPane.ERROR_MESSAGE);
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
+            	
+            	
+            	
+            }
+
+            
+        }); 
+        btnAnnuler.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+            	
+					Chef c = new Chef();
+					c.setVisible(true);
+					dispose();
+				
+            	
+            	
+            	
+            }
+
+            
+        });
+        panel.add(btnModifier);
+        panel.add(btnAnnuler);
+        }
+
+      
+
+    
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> {
+            int idPlat = 0; 
+            ModifPlat modifPlat = new ModifPlat(idPlat);
+            modifPlat.setVisible(true);
+        });
+    }
+    }

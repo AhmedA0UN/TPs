@@ -1,0 +1,69 @@
+package presentation;
+
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+
+import dao.PlatDAO;
+import metier.Plat;
+
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.SQLException;
+import java.util.List;
+
+public class ClientS extends JFrame {
+    private JLabel lblTitre;
+    private JComboBox<String> comboBoxPlats;
+    private JButton btnAdd;
+    private JButton btnRetour;
+    private int id;
+ 	private JTable tablePlats;
+    public ClientS(int id) {
+   
+    	this.id=id;
+    	setTitle("Plats Salés");
+        setSize(600, 400);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
+
+     
+        DefaultTableModel model = new DefaultTableModel();
+        model.addColumn("Nom");
+        model.addColumn("Prix");
+
+   
+        try {
+        	PlatDAO pdao=new PlatDAO();
+            List<Plat> platsalé = pdao.getPlatSalé(); // Supposons que vous avez une méthode pour récupérer tous les plats de la base de données
+            for (Plat plat : platsalé) {
+            	
+                model.addRow(new Object[]{plat.getNomPlat(),plat.getPrix()});
+                //ajouter un checkbox selectioner qui me permet de selectionez les plats 
+                //ajouter tous les plats selectionnez dans la base donné platscommande
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, "Erreur lors de la récupération des plats : " + e.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
+        }
+
+        // Créer la table avec le modèle
+        tablePlats = new JTable(model);
+        tablePlats.setPreferredScrollableViewportSize(new Dimension(500, 300));
+        tablePlats.setFillsViewportHeight(true);
+
+        // Ajouter la table à un JScrollPane
+        JScrollPane scrollPane = new JScrollPane(tablePlats);
+
+        getContentPane().add(scrollPane);
+    }
+
+
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> {
+        	int id=0;
+            ClientS clientS = new ClientS(id);
+            clientS.setVisible(true);
+        });
+    }
+}

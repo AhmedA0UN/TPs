@@ -1,0 +1,41 @@
+package metier;
+
+public class Platscommande {
+    private int idPlat;
+    private String nomPlat;
+    private int quantité;
+    private int idU;
+
+    
+    public Platscommande() {
+    }
+
+ 
+    public Platscommande(int idPlat, int idU) {
+        this.idPlat = idPlat;
+        this.idU = idU;
+    }
+
+   
+    public int getIdPlat() {
+        return idPlat;
+    }
+
+  
+    public void setIdPlat(int idPlat) {
+        this.idPlat = idPlat;
+    }
+
+    
+    public int getIdU() {
+        return idU;
+    }
+
+   
+    public void setIdU(int idU) {
+        this.idU = idU;
+    }
+    
+   
+}
+

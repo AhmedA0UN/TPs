@@ -1,0 +1,57 @@
+package dao;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.List;
+import java.util.ArrayList;
+
+import metier.Plat;
+import metier.Platscommande;
+
+public class PlatscommandeDAO {
+    private Connection connection=SingletonConnection.getInstance();
+
+ 
+
+    public void ajouterPlatsCommande(Platscommande platsCommande) throws SQLException {
+        String sql = "INSERT INTO platscommande (idPlat, idU) VALUES (?, ?)";
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, platsCommande.getIdPlat());
+            statement.setInt(2, platsCommande.getIdU());
+            statement.executeUpdate();
+        }
+    }
+    public List<Platscommande> getPlatCommandeBy() throws SQLException {
+        List<Platscommande> plats = new ArrayList<>();
+        String sql = "SELECT idPlat,idU FROM platscommande";
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    Platscommande platc = new Platscommande();
+                    platc.setIdPlat(resultSet.getInt("idPlat"));
+                    platc.setIdU(resultSet.getInt("idU"));
+                  
+                    plats.add(platc);
+                }
+            }
+        }
+        return plats;
+    }
+    public void supprimerPlatsCommande(int idU) throws SQLException{
+    	String sql="delete from platscommande where idU=?";
+    	try (PreparedStatement statement=connection.prepareStatement(sql)){
+    		statement.setInt(1,idU);
+    		statement.executeUpdate();
+    		
+    	}
+    			
+    }
+    
+
+    	
+    }
+    
+
+

@@ -1,0 +1,73 @@
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableColumnModel;
+
+import dao.PlatDAO;
+import metier.Plat;
+
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.SQLException;
+import java.util.List;
+
+public class ClientS extends JFrame {
+    private int id;
+    private JTable tablePlats;
+
+    public ClientS(int id) {
+        this.id = id;
+        setTitle("Plats Salés");
+        setSize(600, 400);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
+
+        DefaultTableModel model = new DefaultTableModel();
+        model.addColumn("Nom");
+        model.addColumn("Prix");
+        model.addColumn("Action"); // Ajoutez une colonne pour les boutons
+
+        try {
+            PlatDAO pdao = new PlatDAO();
+            List<Plat> platsalé = pdao.getPlatSalé();
+            for (Plat plat : platsalé) {
+                model.addRow(new Object[]{plat.getNomPlat(), plat.getPrix(), "Ajouter"}); // Ajoutez un bouton "Ajouter" pour chaque plat
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, "Erreur lors de la récupération des plats : " + e.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
+        }
+
+        // Créez la table avec le modèle
+        tablePlats = new JTable(model);
+
+        // Ajoutez le Renderer personnalisé pour les boutons dans la colonne "Action"
+        TableColumnModel columnModel = tablePlats.getColumnModel();
+        columnModel.getColumn(2).setCellRenderer(new ButtonRenderer());
+
+        // Définissez la largeur de la colonne "Action"
+        columnModel.getColumn(2).setPreferredWidth(100);
+
+        getContentPane().add(new JScrollPane(tablePlats));
+    }
+
+    // Classe Renderer personnalisée pour les boutons
+    class ButtonRenderer extends JButton implements TableCellRenderer {
+        public ButtonRenderer() {
+            setOpaque(true);
+        }
+
+        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+            setText((value == null) ? "" : value.toString());
+            return this;
+        }
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> {
+            int id = 0;
+            ClientS clientS = new ClientS(id);
+            clientS.setVisible(true);
+        });
+    }
+}

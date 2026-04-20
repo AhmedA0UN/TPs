@@ -1,0 +1,117 @@
+package presentation;
+
+import javax.swing.*;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.SQLException;
+import dao.PlatDAO;
+import metier.Plat;
+
+
+public class AjoutPlat extends JFrame {
+	private JTextField txtIdPlat;
+	private JTextField txtNomPlat;
+    private JTextField txtType;
+    private JTextField txtPrix;
+    private JButton btnAjouter;
+    private JButton btnAnnuler;
+    private int idPlat;
+
+    public AjoutPlat() {
+        
+        setTitle("Ajouter Plat");
+        setSize(463, 341);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setLocationRelativeTo(null);
+
+        JPanel panel = new JPanel();
+        getContentPane().add(panel);
+
+        JLabel lblNomPlat = new JLabel("Nom du Plat:");
+        lblNomPlat.setBounds(184, 10, 147, 13);
+        JLabel lblType = new JLabel("Type:");
+        lblType.setBounds(198, 63, 111, 13);
+        JLabel lblPrix = new JLabel("Prix:");
+        lblPrix.setBounds(204, 116, 105, 13);
+ 
+        txtNomPlat = new JTextField();
+        txtNomPlat.setBounds(71, 29, 309, 28);
+        txtType = new JTextField();
+        txtType.setBounds(71, 82, 309, 28);
+        txtPrix = new JTextField();
+        txtPrix.setBounds(71, 135, 309, 28);
+        btnAjouter = new JButton("Ajouter");
+        btnAjouter.setBounds(119, 181, 101, 21);
+        btnAnnuler = new JButton("Annuler");
+        btnAnnuler.setBounds(230, 181, 101, 21);
+        btnAjouter.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+            	PlatDAO pdo = new PlatDAO();
+            	 
+            	  String type ="" ;
+            	  if (txtType.getText().equals("salé") || txtType.getText().equals("sucré") ) {
+            		  type=txtType.getText();
+            		  
+            	  }else JOptionPane.showMessageDialog(AjoutPlat.this, "plat doit etre de type : salé ou sucré", "WARNING", JOptionPane.WARNING_MESSAGE);
+                  String nom = txtNomPlat.getText();
+                  double prix=0;
+                  if (pdo.isDouble(txtPrix.getText())) {
+                	  prix = Double.parseDouble(txtPrix.getText());
+                  }else JOptionPane.showMessageDialog(AjoutPlat.this, "prix doit etre de type double", "WARNING", JOptionPane.WARNING_MESSAGE);
+                  
+            	Plat p=new Plat(idPlat,nom,prix,type);
+            	
+            	try {
+            		
+            			pdo.ajouterPlat(p);
+            			Chef c = new Chef();
+            			c.setVisible(true);
+            			dispose();
+            		
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
+            	
+            	
+            	
+            }
+
+            
+        }); 
+        btnAnnuler.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+            	
+					Chef c = new Chef();
+					c.setVisible(true);
+					dispose();
+				
+            	
+            	
+            	
+            }
+
+            
+        });
+        panel.setLayout(null);
+        panel.add(btnAjouter);
+        panel.add(btnAnnuler);
+        panel.add(lblType);
+        panel.add(txtType);
+        panel.add(txtNomPlat);
+        panel.add(txtPrix);
+        panel.add(lblNomPlat);
+        panel.add(lblPrix);
+        }
+
+      
+
+    
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> {
+           
+            AjoutPlat modifPlat = new AjoutPlat();
+            modifPlat.setVisible(true);
+        });
+    }
+    }

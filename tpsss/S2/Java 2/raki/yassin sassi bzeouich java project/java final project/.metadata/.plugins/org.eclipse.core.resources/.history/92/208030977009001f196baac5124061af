@@ -1,0 +1,82 @@
+package dao;
+
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import metier.Commande;
+
+public class CommandeDAO {
+    Connection connection=SingletonConnection.getInstance();
+
+ 
+
+    public void ajouterCommande(Commande commande) throws SQLException {
+        String sql = "INSERT INTO commande (idC, etat, idU) VALUES (?, ?, ?)";
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, commande.getIdCommande());
+            statement.setString(2, commande.getEtat());
+            statement.setInt(3, commande.getIdClient());
+            statement.executeUpdate();
+        }
+    }
+    public int getIdClient(int idCom) throws SQLException {
+    	String sql = "SELECT idU FROM commande WHERE idC = ?";
+    	try (PreparedStatement statement = connection.prepareStatement(sql)){
+    		statement.setInt(1,idCom);
+    		try(ResultSet resultSet = statement.executeQuery()){        		
+        		resultSet.next();
+        		return resultSet.getInt("idU");
+        	
+        	}
+    	}
+    			
+    			
+    	
+    }
+
+    public List<Commande> getCommandesByState(String etat) throws SQLException {
+        List<Commande> commandes = new ArrayList<>();
+        String sql = "SELECT * FROM commande WHERE etat =?";
+        try (PreparedStatement statement = connection.prepareStatement(sql)){
+        	statement.setString(1,etat);
+            try(ResultSet resultSet = statement.executeQuery()) {
+            while (resultSet.next()) {
+                Commande commande = new Commande();
+                commande.setIdCommande(resultSet.getInt("idC"));
+                commande.setIdClient(resultSet.getInt("idU"));
+                commande.setEtat(resultSet.getString("etat"));
+                commandes.add(commande);
+            }
+        }
+        return commandes;
+    }
+    }
+    public int existeCommande(int idU) throws SQLException{
+    	String sql="select idU from commande where idU=?";
+    	try(PreparedStatement statement =connection.prepareStatement(sql)){
+    		statement.setInt(1, idU);
+    		try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next())
+                	return 1;
+                else return 0;
+    		
+    	}
+    	
+    }}
+
+    public void mettreAJourCommande(int idC,String etat) throws SQLException {
+        String sql = "UPDATE commande SET etat = ? WHERE idC = ?";
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1,etat);
+            statement.setInt(2, idC);
+            statement.executeUpdate();
+        }
+    }
+
+
+}
+

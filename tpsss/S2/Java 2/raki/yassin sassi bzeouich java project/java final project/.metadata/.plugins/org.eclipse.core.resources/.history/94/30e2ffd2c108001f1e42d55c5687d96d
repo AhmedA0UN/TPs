@@ -1,0 +1,83 @@
+package presentation;
+
+import javax.swing.*;
+
+import dao.UtilisateurDAO;
+import metier.Utilisateur;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+public class Inscription extends JFrame {
+    private JTextField txtNom;
+    private JPasswordField txtMdp;
+
+    public Inscription() {
+        setTitle("Inscription");
+        setSize(300, 200);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
+
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+
+        JLabel lblNom = new JLabel("Id : ");
+        txtNom = new JTextField(10);
+
+        JLabel lblMdp = new JLabel("Mot de passe : ");
+        txtMdp = new JPasswordField(10);
+
+        JButton btnInscrire = new JButton("S'inscrire");
+        btnInscrire.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	String idt = txtNom.getText();
+            	int id=Integer.parseInt(idt);
+            	String mdp = new String(txtMdp.getPassword());
+            	UtilisateurDAO u=new UtilisateurDAO();
+
+            	// Vérifier si l'identifiant est déjà utilisé
+            	try {
+            	    if ((u.existeUtilisateur(id))==1) {
+            	        JOptionPane.showMessageDialog(Inscription.this, "Cet identifiant est déjà utilisé. Veuillez en choisir un autre.", "Erreur", JOptionPane.ERROR_MESSAGE);
+            	        return; // Arrêter le traitement car l'identifiant existe déjà
+            	    }
+
+            	    // Si l'identifiant n'est pas déjà utilisé, insérer l'utilisateur dans la base de données
+            	    Utilisateur ut=new Utilisateur(id,"yassin",mdp,"client");
+            	    u.ajouterUtilisateur(ut);
+            	    JOptionPane.showMessageDialog(Inscription.this, "Inscription réussie pour : " + id + "\nMot de passe : " + mdp);
+            	} catch (SQLException ex) {
+            	    ex.printStackTrace(); // Gérer l'erreur de base de données
+            	    JOptionPane.showMessageDialog(Inscription.this, "Erreur lors de l'inscription : " + ex.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
+            	}
+            }
+        });
+
+        JButton btnLogin = new JButton("Login");
+        btnLogin.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                LoginC login = new LoginC(); // Modification du nom de la classe à instancier
+                login.setVisible(true);
+                dispose(); // Ferme la fenêtre d'inscription
+            }
+        });
+
+        panel.add(lblNom);
+        panel.add(txtNom);
+        panel.add(lblMdp);
+        panel.add(txtMdp);
+        panel.add(btnInscrire);
+        panel.add(btnLogin);
+
+        getContentPane().add(panel);
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> {
+            Inscription inscription = new Inscription();
+            inscription.setVisible(true);
+        });
+    }
+}

@@ -1,0 +1,134 @@
+package dao;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+
+import metier.Plat;
+
+public class PlatDAO {
+	Connection connection=SingletonConnection.getInstance();
+
+	public void ajouterPlat(Plat plat) throws SQLException {
+		String sql = "insert into plat(nomPlat,prix,type) values (?,?,?)";
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, plat.getNomPlat());
+            statement.setDouble(2,plat.getPrix());
+            statement.setString(3, plat.getType());
+            statement.executeUpdate();
+        }
+        catch(SQLException e) {
+        	e.printStackTrace();
+        }
+    }
+
+    public void modifierPlat(Plat plat) throws SQLException {
+        String sql = "update plat set nomPlat=?,prix=?,type=?  where idPlat=?";
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, plat.getNomPlat());       
+            statement.setDouble(2,plat.getPrix());
+            statement.setString(3, plat.getType());
+            statement.setInt(4, plat.getIdPlat());
+            statement.executeUpdate();
+        }
+        catch(SQLException e) {
+        	e.printStackTrace();
+        }
+    }
+
+    public void supprimerPlat(int idP) throws SQLException {
+        String sql = "delete from plat where idPlat=?";
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, idP);
+            statement.executeUpdate();
+        }
+        catch(SQLException e) {
+        	e.printStackTrace();
+        }
+    }
+    
+    
+    
+
+   public List<Plat> getAllPlat() throws SQLException {
+	   List<Plat> plats = new ArrayList<>();
+       String sql = "select * from plat ";
+        try (PreparedStatement statement = connection.prepareStatement(sql);
+                ResultSet resultSet = statement.executeQuery()) {
+               while (resultSet.next()) {
+                   Plat plat = new Plat();
+                   plat.setIdPlat(resultSet.getInt("idPlat"));
+                   plat.setNomPlat(resultSet.getString("nomPlat"));
+                   plat.setPrix(resultSet.getDouble("prix"));
+                   plat.setType(resultSet.getString("type"));
+                   plats.add(plat);
+               }
+           }
+           return plats;
+       }
+   public List<Plat> getPlatSucré() throws SQLException {
+	   List<Plat> plats = new ArrayList<>();
+       String sql = "select * from plat where type='sucré' ";
+        try (PreparedStatement statement = connection.prepareStatement(sql);
+                ResultSet resultSet = statement.executeQuery()) {
+               while (resultSet.next()) {
+                   Plat plat = new Plat();
+                   plat.setIdPlat(resultSet.getInt("idPlat"));
+                   plat.setNomPlat(resultSet.getString("nomPlat"));
+                   plat.setPrix(resultSet.getDouble("prix"));
+                   plat.setType(resultSet.getString("type"));
+                   plats.add(plat);
+               }
+           }
+           return plats;
+       }
+   public List<Plat> getPlatSalé() throws SQLException {
+	   List<Plat> plats = new ArrayList<>();
+       String sql = "select * from plat where type='salé'";
+        try (PreparedStatement statement = connection.prepareStatement(sql);
+                ResultSet resultSet = statement.executeQuery()) {
+               while (resultSet.next()) {
+                   Plat plat = new Plat();
+                   plat.setIdPlat(resultSet.getInt("idPlat"));
+                   plat.setNomPlat(resultSet.getString("nomPlat"));
+                   plat.setPrix(resultSet.getDouble("prix"));
+                   plat.setType(resultSet.getString("type"));
+                   plats.add(plat);
+               }
+           }
+           return plats;
+       }
+   public boolean existe(int idPlat) throws SQLException{
+	   String sql = "select * from plat where idPlat=?";
+	   try (PreparedStatement statement = connection.prepareStatement(sql)) {
+           statement.setInt(1, idPlat);
+           try (ResultSet resultSet = statement.executeQuery()){
+        	   return(!(resultSet.next()));
+           }
+        	   
+           }
+	   
+	   
+   }
+   public static boolean isDouble(String input) {
+	    try {
+	        Double.parseDouble(input);
+	        return true;
+	    } catch (NumberFormatException e) {
+	        return false;
+	    }
+	}
+		
+		
+		
+	}
+	
+	
+	
+
+

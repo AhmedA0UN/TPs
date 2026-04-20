@@ -1,0 +1,108 @@
+package presentation;
+
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.SQLException;
+import java.util.List;
+
+import dao.PlatscommandeDAO;
+import metier.Platscommande;
+import metier.Commande;
+
+public class Serveur extends JFrame {
+    private JTable tablePlatsCommandes;
+
+    public Serveur() {
+        setTitle("Gestion des commandes");
+        setSize(575, 458);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
+
+        // Initialize components
+        initComponents();
+    }
+
+    private void initComponents() {
+        // Create table model for command display
+        DefaultTableModel model = new DefaultTableModel();
+        model.addColumn("ID Plat");
+        model.addColumn("ID Client");
+
+        // Load ordered dishes data from the database
+        try {
+            PlatscommandeDAO platsCommandeDAO = new PlatscommandeDAO();
+            List<Platscommande> platsCommandes = platsCommandeDAO.getPlatCommande();
+            for (Platscommande pc : platsCommandes) {
+                model.addRow(new Object[]{pc.getIdPlat(), pc.getIdU()});
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, "Erreur lors de la récupération des plats commandés : " + e.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
+        }
+
+        // Create the table with the model
+        tablePlatsCommandes = new JTable(model);
+        tablePlatsCommandes.setPreferredScrollableViewportSize(new Dimension(500, 300));
+        tablePlatsCommandes.setFillsViewportHeight(true);
+
+        // Add the table to a scroll pane
+        JScrollPane scrollPane = new JScrollPane(tablePlatsCommandes);
+        getContentPane().add(scrollPane, BorderLayout.CENTER);
+
+        // Panel for navigation buttons
+        JPanel buttonPanel = new JPanel();
+        getContentPane().add(buttonPanel, BorderLayout.SOUTH);
+
+        // Add buttons to the button panel
+        JButton btnAjouterCommande = new JButton("Ajouter Commande");
+        btnAjouterCommande.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Commander c = new Commander();
+                c.setVisible(true);
+            }
+        });
+        buttonPanel.add(btnAjouterCommande);
+
+        JButton btnCEncours = new JButton("Commandes en cours");
+        btnCEncours.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                CommandeEnCours cec = new CommandeEnCours();
+                cec.setVisible(true);
+            }
+        });
+        buttonPanel.add(btnCEncours);
+
+        JButton btnCP = new JButton("Commandes reçues");
+        btnCP.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                CommandeRecu cr = new CommandeRecu();
+                cr.setVisible(true);
+            }
+        });
+        buttonPanel.add(btnCP);
+
+        JButton btnLogout = new JButton("Logout");
+        btnLogout.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Choisir choix = new Choisir();
+                choix.setVisible(true);
+                dispose(); // Close the current frame
+            }
+        });
+        buttonPanel.add(btnLogout);
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> {
+            Serveur serveur = new Serveur();
+            serveur.setVisible(true);
+        });
+    }
+}
+

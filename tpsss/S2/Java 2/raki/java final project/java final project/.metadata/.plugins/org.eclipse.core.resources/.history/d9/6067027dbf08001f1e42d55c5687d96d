@@ -1,0 +1,27 @@
+package dao;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
+import metier.Utilisateur;
+
+public class UtilisateurDAO {
+	Connection connection=SingletonConnection.getInstance();
+
+
+
+    public void ajouterUtilisateur(Utilisateur utilisateur) throws SQLException {
+        String sql = "INSERT INTO utilisateur (idU, nomU, mdpU, role) VALUES (?, ?, ?, ?)";
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, utilisateur.getIdU());
+            statement.setString(2, utilisateur.getNomU());
+            statement.setInt(3, utilisateur.getMdpU());
+            statement.setString(4, utilisateur.getRole());
+            statement.executeUpdate();
+        }
+    }
+
+
+   
+}

@@ -1,0 +1,95 @@
+package presentation;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.SQLException;
+import dao.PlatDAO;
+import metier.Plat;
+
+public class ModifPlat extends JFrame {
+    private JTextField txtNomPlat;
+    private JTextField txtType;
+    private JTextField txtPrix;
+    private JButton btnModifier;
+    private int idPlat;
+
+    public ModifPlat(int idPlat) {
+        this.idPlat = idPlat;
+        setTitle("Modifier Plat");
+        setSize(400, 200);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setLocationRelativeTo(null);
+
+        JPanel panel = new JPanel(new GridLayout(4, 2));
+        JLabel lblNomPlat = new JLabel("Nom du Plat:");
+        JLabel lblType = new JLabel("Type:");
+        JLabel lblPrix = new JLabel("Prix:");
+
+        txtNomPlat = new JTextField();
+        txtType = new JTextField();
+        txtPrix = new JTextField();
+
+        panel.add(lblNomPlat);
+        panel.add(txtNomPlat);
+        panel.add(lblType);
+        panel.add(txtType);
+        panel.add(lblPrix);
+        panel.add(txtPrix);
+
+        btnModifier = new JButton("Modifier");
+        btnModifier.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                modifierPlat();
+            }
+        });
+
+        panel.add(btnModifier);
+
+        add(panel);
+        afficherDetailsPlat();
+    }
+
+    private void afficherDetailsPlat() {
+        try {
+            PlatDAO pdao = new PlatDAO();
+            Plat plat = pdao.getPlatById(idPlat);
+            if (plat != null) {
+                txtNomPlat.setText(plat.getNomPlat());
+                txtType.setText(plat.getType());
+                txtPrix.setText(String.valueOf(plat.getPrix()));
+            } else {
+                JOptionPane.showMessageDialog(this, "Plat introuvable.", "Erreur", JOptionPane.ERROR_MESSAGE);
+                dispose();
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, "Erreur lors de la récupération du plat : " + e.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
+            dispose();
+        }
+    }
+
+    private void modifierPlat() {
+        String nomPlat = txtNomPlat.getText();
+        String type = txtType.getText();
+        double prix = Double.parseDouble(txtPrix.getText());
+
+        try {
+            PlatDAO pdao = new PlatDAO();
+            Plat plat = new Plat(idPlat, nomPlat, type, prix);
+            pdao.modifierPlat(plat);
+            JOptionPane.showMessageDialog(this, "Plat modifié avec succès.", "Succès", JOptionPane.INFORMATION_MESSAGE);
+            dispose();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, "Erreur lors de la modification du plat : " + e.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> {
+            int idPlat = 1; // Remplacez 1 par l'ID du plat que vous souhaitez modifier
+            ModifPlat modifPlat = new ModifPlat(idPlat);
+            modifPlat.setVisible(true);
+        });
+    }
+}

@@ -1,0 +1,76 @@
+package presentation;
+
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+
+import dao.CommandeDAO;
+
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.SQLException;
+import java.util.List;
+
+import metier.Commande;
+import metier.Plat;
+import metier.Platscommande;
+
+public class Facturefinal extends JFrame {
+    private int idC;
+    private JTable tablePlatsCommandes;
+
+    public Facturefinal(int idC) {
+        this.idC = idC;
+        setTitle("Facture");
+        setSize(600, 400);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
+
+        DefaultTableModel model = new DefaultTableModel();
+        model.addColumn("ID Plat");
+        model.addColumn("Nom Plat");
+        model.addColumn("Prix Plat");
+        model.addColumn("Prix totale");
+
+        // Charger les plats commandés de l'utilisateur depuis la base de données
+        try {
+        	CommandeDAO cdao=new CommandeDAO();
+        	int idU = cdao.getIdClient(idC);
+            Commande commande = new Commande(idC,idU);
+            Platscommande p = new Platscommande();
+            List<Plat> platsCommandes = p.getPlatCommandeById(idU);
+            for (Plat pc : platsCommandes) {
+                model.addRow(new Object[]{pc.getIdPlat(), pc.getNomPlat(), pc.getPrix(), commande.calculerFacture()});
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, "Erreur lors de la récupération des plats commandés : " + e.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
+        }
+
+        // Création de la table avec le modèle
+        tablePlatsCommandes = new JTable(model);
+        tablePlatsCommandes.setPreferredScrollableViewportSize(new Dimension(500, 300));
+        tablePlatsCommandes.setFillsViewportHeight(true);
+
+        // Ajout de la table à un JScrollPane
+        JScrollPane scrollPane = new JScrollPane(tablePlatsCommandes);
+        getContentPane().add(scrollPane);
+
+        // Bouton "Fermer"
+        JButton btnFermer = new JButton("Fermer");
+        btnFermer.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+            }
+        });
+        getContentPane().add(btnFermer, BorderLayout.SOUTH);
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> {
+            int idUtilisateur = 0; // Remplacez 0 par l'ID de l'utilisateur concerné
+            Facturefinal facturefinal = new Facturefinal(idUtilisateur);
+            facturefinal.setVisible(true);
+        });
+    }
+}

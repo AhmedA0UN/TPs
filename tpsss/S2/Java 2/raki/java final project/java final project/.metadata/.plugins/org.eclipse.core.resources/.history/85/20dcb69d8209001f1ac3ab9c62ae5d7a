@@ -1,0 +1,168 @@
+package presentation;
+
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.SQLException;
+import java.util.List;
+
+import dao.PlatscommandeDAO;
+import metier.Platscommande;
+import presentation.Menu;
+import metier.Commande;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.LayoutStyle.ComponentPlacement; // Assurez-vous d'importer la classe Commande
+
+public class Serveur extends JFrame {
+    private JTable tablePlatsCommandes;
+
+    public Serveur() {
+        setTitle("Gestion des commandes");
+        setSize(575, 458);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
+
+        DefaultTableModel model = new DefaultTableModel();
+        model.addColumn("ID Plat");
+        model.addColumn("ID Client");
+
+        // commandes pret
+        JButton btnCP = new JButton("Commandes reçues");
+        btnCP.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	
+            	CommandeRecu cr=new CommandeRecu();
+            	cr.setVisible(true);
+            	dispose();
+            	
+            
+                 
+                
+            }
+        });
+        
+
+        // Charger les plats commandés depuis la base de données
+        try {
+            PlatscommandeDAO platsCommandeDAO = new PlatscommandeDAO();
+            List<Platscommande> platsCommandes = platsCommandeDAO.getPlatCommande();
+            for (Platscommande pc : platsCommandes) {
+                model.addRow(new Object[]{pc.getIdPlat(), pc.getIdU()});
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, "Erreur lors de la récupération des plats commandés : " + e.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
+        }
+
+        // Création de la table avec le modèle
+        tablePlatsCommandes = new JTable(model);
+        tablePlatsCommandes.setPreferredScrollableViewportSize(new Dimension(500, 300));
+        tablePlatsCommandes.setFillsViewportHeight(true);
+
+        // Ajout de la table à un JScrollPane
+        JScrollPane scrollPane = new JScrollPane(tablePlatsCommandes);
+        getContentPane().add(scrollPane);
+
+        // Bouton "Ajouter Commande"
+        JButton btnAjouterCommande = new JButton("Ajouter Commande");
+        btnAjouterCommande.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	Commander c= new Commander();
+            	c.setVisible(true);
+            }
+        });
+        btnAjouterCommande.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	Serveur c= new Serveur();
+            	c.setVisible(true);
+            	dispose();
+            }
+        });
+
+
+        // Ajout des boutons à la partie inférieure
+        JPanel buttonPanel = new JPanel();
+    
+        JPanel panel2 = new JPanel();
+        
+        
+        // commandes en cours 
+        JButton btnCEncours = new JButton("Commandes en cours");
+        btnCEncours.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	CommandeEnCours cec=new CommandeEnCours();
+            	cec.setVisible(true);
+            	
+            	
+            }
+        });
+        
+        JButton btnLogout = new JButton("Logout");
+        btnLogout.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Choisir choix=new Choisir();
+                choix.setVisible(true);              
+                dispose();
+                }
+        });
+        
+        
+        getContentPane().add(panel2, BorderLayout.WEST);
+       
+                
+                
+        GroupLayout gl_panel2 = new GroupLayout(panel2);
+        gl_panel2.setHorizontalGroup(
+        	gl_panel2.createParallelGroup(Alignment.LEADING)
+        		.addGroup(gl_panel2.createSequentialGroup()
+        			.addGap(49)
+        			.addGroup(gl_panel2.createParallelGroup(Alignment.LEADING, false)
+        				.addComponent(btnCP, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        				.addComponent(btnCEncours, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE))
+        			.addContainerGap(54, Short.MAX_VALUE))
+        );
+        gl_panel2.setVerticalGroup(
+        	gl_panel2.createParallelGroup(Alignment.LEADING)
+        		.addGroup(gl_panel2.createSequentialGroup()
+        			.addGap(142)
+        			.addComponent(btnCEncours, GroupLayout.PREFERRED_SIZE, 47, GroupLayout.PREFERRED_SIZE)
+        			.addPreferredGap(ComponentPlacement.RELATED)
+        			.addComponent(btnCP, GroupLayout.PREFERRED_SIZE, 47, GroupLayout.PREFERRED_SIZE)
+        			.addContainerGap(153, Short.MAX_VALUE))
+        );
+        
+        panel2.setLayout(gl_panel2);
+        panel2.add(btnLogout);
+        getContentPane().add(buttonPanel, BorderLayout.SOUTH);
+        GroupLayout gl_buttonPanel = new GroupLayout(buttonPanel);
+        gl_buttonPanel.setHorizontalGroup(
+        	gl_buttonPanel.createParallelGroup(Alignment.LEADING)
+        		.addGroup(gl_buttonPanel.createSequentialGroup()
+        			.addGap(197)
+        			.addComponent(btnAjouterCommande)
+        			.addGap(46))
+        );
+        gl_buttonPanel.setVerticalGroup(
+        	gl_buttonPanel.createParallelGroup(Alignment.LEADING)
+        		.addGroup(gl_buttonPanel.createSequentialGroup()
+        			.addGap(5)
+        			.addComponent(btnAjouterCommande))
+        );
+        buttonPanel.setLayout(gl_buttonPanel);
+        
+        
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> {
+            Serveur serveur = new Serveur();
+            serveur.setVisible(true);
+        });
+    }
+}

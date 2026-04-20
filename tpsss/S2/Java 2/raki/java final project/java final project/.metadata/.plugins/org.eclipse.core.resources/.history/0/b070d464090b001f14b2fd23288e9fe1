@@ -1,0 +1,323 @@
+package presentation;
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.SQLException;
+import java.util.List;
+
+import dao.CommandeDAO;
+import dao.PlatDAO;
+import metier.Commande;
+import metier.Plat;
+
+public class Chef extends JFrame {
+    private JTabbedPane tabbedPane;
+    private JPanel panelmenu;
+    private JPanel panelcommande;
+    private JTable tablePlats;
+    private JTable tableCommandes;
+
+    public Chef() {
+        setTitle("Chef");
+        setSize(800, 600);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
+
+        tabbedPane = new JTabbedPane();
+        panelmenu = new JPanel(new BorderLayout());
+        panelcommande = new JPanel(new BorderLayout());
+
+        // Affichage du menu des plats
+        afficherMenuPlats();
+
+        // Affichage de la liste des commandes
+        afficherListeCommandes();
+
+        tabbedPane.addTab("Menu", panelmenu);
+        tabbedPane.addTab("Commandes", panelcommande);
+
+        add(tabbedPane);
+    }
+
+    private void afficherMenuPlats() {
+    	
+        DefaultTableModel model = new DefaultTableModel();
+        model.addColumn("ID");
+        model.addColumn("Nom");
+        model.addColumn("Type");
+        model.addColumn("Prix");
+
+        // Récupérer les données des plats depuis la base de données
+        try {
+            PlatDAO pdao = new PlatDAO();
+            List<Plat> plats = pdao.getAllPlat();
+            for (Plat plat : plats) {
+                model.addRow(new Object[]{plat.getIdPlat(), plat.getNomPlat(), plat.getType(), plat.getPrix()});
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, "Erreur lors de la récupération des plats : " + e.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
+        }
+
+        // Créer la table avec le modèle
+        tablePlats = new JTable(model);
+        tablePlats.setPreferredScrollableViewportSize(new Dimension(500, 300));
+        tablePlats.setFillsViewportHeight(true);
+
+        // Ajouter la table à un JScrollPane
+        JScrollPane scrollPane = new JScrollPane(tablePlats);
+
+        panelmenu.add(scrollPane, BorderLayout.CENTER);
+     // Ajouter des boutons pour gérer l'état des commandes
+        JPanel panelBoutons = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        JButton btnAjouter = new JButton("Ajouter");
+        JButton btnModifier = new JButton("Modifier");
+        JButton btnSupprimer = new JButton("Supprimer");
+        JButton btnLogout = new JButton("Logout");
+
+        // Ajouter des ActionListener pour chaque bouton
+        btnLogout.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+            	Choisir choix= new Choisir();
+            	choix.setVisible(true);
+            	dispose();
+                
+            }
+        });
+        btnAjouter.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+            	AjoutPlat ap= new AjoutPlat();
+            	ap.setVisible(true);
+            	dispose();
+                
+            }
+        });
+
+        btnModifier.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+            	int selectedRowIndex = tablePlats.getSelectedRow();
+                if (selectedRowIndex != -1) { 
+                    int idU = (int) tablePlats.getValueAt(selectedRowIndex, 0);
+                    
+                    ModifPlat mp = new ModifPlat(idU);
+                    mp.setVisible(true);
+                    dispose();
+
+                    
+                    
+                } else {
+                    JOptionPane.showMessageDialog(Chef.this, "Veuillez sélectionner un plat à modifier.", "Avertissement", JOptionPane.WARNING_MESSAGE);
+                }
+            }
+        });
+
+        btnSupprimer.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+            	int selectedRowIndex = tablePlats.getSelectedRow();
+                if (selectedRowIndex != -1) { 
+                    int idP = (int) tablePlats.getValueAt(selectedRowIndex, 0);
+                    PlatDAO p=new PlatDAO();
+                    int confirmation = JOptionPane.showConfirmDialog(null, "Voulez-vous vraiment commencer la commande sélectionnée?", "Confirmation", JOptionPane.YES_NO_OPTION);
+                    if (confirmation == JOptionPane.YES_OPTION) {
+                        try {
+    						p.supprimerMenu(idP);
+    						Chef c = new Chef();							
+							c.setVisible(true);
+							dispose();
+    					} catch (SQLException e1) {
+    						
+    						e1.printStackTrace();
+    					}
+                    	
+                    }                    
+                    
+                } else {
+                    JOptionPane.showMessageDialog(Chef.this, "Veuillez sélectionner un fournisseur à modifier.", "Avertissement", JOptionPane.WARNING_MESSAGE);
+                }
+            }
+        });
+
+        panelBoutons.add(btnAjouter);
+        panelBoutons.add(btnModifier);
+        panelBoutons.add(btnSupprimer);
+        panelBoutons.add(btnLogout);
+
+
+        panelmenu.add(panelBoutons, BorderLayout.SOUTH);
+    }
+
+    private void afficherListeCommandes() {
+        // Créer un modèle de tableau avec une colonne supplémentaire pour les cases à cocher
+        DefaultTableModel model = new DefaultTableModel() {
+            @Override
+            public Class<?> getColumnClass(int columnIndex) {
+                if (columnIndex == 0) {
+                    return Boolean.class; // Première colonne pour les cases à cocher
+                } else {
+                    return super.getColumnClass(columnIndex);
+                }
+            }
+
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return column == 0; // Seule la première colonne (cases à cocher) est éditable
+            }
+        };
+        model.addColumn("Sélection"); 
+        model.addColumn("ID");
+        model.addColumn("État");
+        model.addColumn("ID Utilisateur");
+        model.addColumn("Prix");
+       
+
+        // Récupérer les données des commandes depuis la base de données
+        try {
+            CommandeDAO cdao = new CommandeDAO();
+            List<Commande> commandes = cdao.getAllCommandes();
+            for (Commande commande : commandes) {
+                model.addRow(new Object[]{false, commande.getIdCommande(), commande.getEtat(), commande.getIdClient(),cdao.getPrix(commande.getIdCommande())});
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, "Erreur lors de la récupération des commandes : " + e.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
+        }
+
+        // Créer la table avec le modèle
+        tableCommandes = new JTable(model);
+        tableCommandes.setPreferredScrollableViewportSize(new Dimension(500, 300));
+        tableCommandes.setFillsViewportHeight(true);
+
+        // Ajouter la table à un JScrollPane
+        JScrollPane scrollPane = new JScrollPane(tableCommandes);
+
+        panelcommande.add(scrollPane, BorderLayout.CENTER);
+
+        // Ajouter des boutons 
+        JPanel panelBoutons = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        JButton btnCommencer = new JButton("Commencer");
+        JButton btnAnnuler = new JButton("Annuler");
+        JButton btnPrete = new JButton("Prête");
+        JButton btnAP = new JButton ("Afficher Plats");
+        JButton btnRefresh = new JButton ("↻");
+
+        // bouttons
+        btnRefresh.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                
+                   Chef c = new Chef();
+                   c.afficherListeCommandes();
+                   c.setVisible(true);
+                   dispose();
+                   
+            
+            }});
+        btnAP.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                for (int row = 0; row < tableCommandes.getRowCount(); row++) {
+                    Boolean selected = (Boolean) tableCommandes.getValueAt(row, 0);
+                    if (selected) {
+                    	String etat = (String) tableCommandes.getValueAt(row, 2);
+                    	if (etat.equals("à faire")) {
+                    	int idU = (int) tableCommandes.getValueAt(row, 3);
+                    	ViewP vp= new ViewP(idU);
+                    	vp.setVisible(true);                   	                                                              
+                    }
+                    	else {JOptionPane.showMessageDialog(Chef.this, "La commande doit etre à faire" , "Erreur", JOptionPane.ERROR_MESSAGE);}
+                }
+            }
+            }
+        });
+        btnCommencer.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                for (int row = 0; row < tableCommandes.getRowCount(); row++) {
+                    Boolean selected = (Boolean) tableCommandes.getValueAt(row, 0);
+                    if (selected) {
+                    	CommandeDAO cdao=new CommandeDAO();
+                        int idCommande = (int) tableCommandes.getValueAt(row, 1);
+                        try {
+                        	
+							cdao.mettreAJourCommande(idCommande,"en cours");
+							Chef c = new Chef();							
+							c.setVisible(true);
+							dispose();
+						} catch (SQLException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+                       
+                    }
+                }
+            }
+        });
+
+        btnAnnuler.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                for (int row = 0; row < tableCommandes.getRowCount(); row++) {
+                    Boolean selected = (Boolean) tableCommandes.getValueAt(row, 0);
+                    if (selected) {
+                    	CommandeDAO cdao=new CommandeDAO();
+                        int idCommande = (int) tableCommandes.getValueAt(row, 1);
+                        int confirmation = JOptionPane.showConfirmDialog(null, "Voulez-vous vraiment commencer la commande sélectionnée?", "Confirmation", JOptionPane.YES_NO_OPTION);
+                        if (confirmation == JOptionPane.YES_OPTION) {
+                        	try {
+                            	
+    							cdao.annulerCommande(idCommande);
+    							Chef c = new Chef();							
+    							c.setVisible(true);
+    							dispose();
+    							
+    							
+    						} catch (SQLException e1) {
+    							// TODO Auto-generated catch block
+    							e1.printStackTrace();
+    						}
+                        	
+                        }
+                        
+                       
+                    }
+                }
+            }
+        });
+
+        btnPrete.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+            	 for (int row = 0; row < tableCommandes.getRowCount(); row++) {
+                     Boolean selected = (Boolean) tableCommandes.getValueAt(row, 0);
+                     if (selected) {
+                     	CommandeDAO cdao=new CommandeDAO();
+                         int idCommande = (int) tableCommandes.getValueAt(row, 1);
+                         try {
+ 							cdao.mettreAJourCommande(idCommande,"prête");
+ 							Chef c = new Chef();							
+							c.setVisible(true);
+							dispose();
+ 						} catch (SQLException e1) {						
+ 							e1.printStackTrace();
+ 						}
+                        
+                     }
+                 }
+            }
+        });
+
+        panelBoutons.add(btnCommencer);
+        panelBoutons.add(btnAnnuler);
+        panelBoutons.add(btnPrete);
+        panelBoutons.add(btnAP);
+        panelBoutons.add(btnRefresh);
+        panelcommande.add(panelBoutons, BorderLayout.SOUTH);
+        
+    }
+
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> {
+            Chef chef = new Chef();
+            chef.setVisible(true);
+        });
+    }
+}
+
+

@@ -1,0 +1,107 @@
+package presentation;
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+
+import dao.CommandeDAO;
+import dao.PlatscommandeDAO;
+
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.SQLException;
+import java.util.List;
+
+import metier.Commande;
+import metier.Plat;
+import metier.Platscommande;
+import presentation.Menu;
+
+public class Facturefinal extends JFrame {
+    private int idC;
+    private JTable tablePlatsCommandes;
+    private JTextField txtPrix;
+
+    public Facturefinal(int idC) {
+        this.idC = idC;
+        setTitle("Facture");
+        setSize(600, 400);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
+
+        DefaultTableModel model = new DefaultTableModel();
+        model.addColumn("ID Plat");
+        model.addColumn("Nom Plat");
+        model.addColumn("Prix Plat");
+        model.addColumn("Quantité");
+        
+        JLabel lblPrix = new JLabel("Prix total :");
+        lblPrix.setVerticalAlignment(SwingConstants.BOTTOM);
+        txtPrix = new JTextField(10);
+        txtPrix.setEditable(false);
+        
+        JPanel panel = new JPanel();
+        panel.setLayout(new BorderLayout());
+        panel.add(lblPrix, BorderLayout.WEST);
+        panel.add(txtPrix, BorderLayout.SOUTH);
+        getContentPane().add(panel, BorderLayout.EAST);
+        // Charger les plats commandés de l'utilisateur depuis la base de données
+        try {
+            CommandeDAO cdao = new CommandeDAO();
+            int idU = cdao.getIdClient(idC);
+            Commande commande = new Commande(idC, idU);
+            PlatscommandeDAO p = new PlatscommandeDAO();
+            
+            List<Plat> platsCommandes = p.getPlatCommandeById(idU);                                           
+            for (Plat pc : platsCommandes) {
+                model.addRow(new Object[]{pc.getIdPlat(), pc.getNomPlat(), pc.getPrix(),p.getQuantite(idC, pc.getIdPlat())});
+                
+            }
+            txtPrix.setText(String.valueOf(commande.calculerFacture())); // Afficher le prix total
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, "Erreur lors de la récupération des plats commandés : " + e.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
+        }
+
+        // Création de la table avec le modèle
+        tablePlatsCommandes = new JTable(model);
+        tablePlatsCommandes.setPreferredScrollableViewportSize(new Dimension(500, 300));
+        tablePlatsCommandes.setFillsViewportHeight(true);
+
+        // Ajout de la table à un JScrollPane
+        JScrollPane scrollPane = new JScrollPane(tablePlatsCommandes);
+        getContentPane().add(scrollPane, BorderLayout.CENTER);
+       
+
+        // Bouton "Donner Facture"
+        JButton btnFermer = new JButton("Donner Facture");
+        btnFermer.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	try {
+            	CommandeDAO cmnd = new CommandeDAO();
+            	int idU=cmnd.getIdClient(idC);
+            	cmnd.mettreAJourCommande(idC,"servie");          	
+            	PlatscommandeDAO pc= new PlatscommandeDAO();
+            	pc.supprimerPlatsCommande(idU);
+            	JOptionPane.showMessageDialog(Facturefinal.this, "Commande a été servie", "Succès", JOptionPane.INFORMATION_MESSAGE);
+            	}
+            	catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(Facturefinal.this, "Erreur lors de la récupération des commandes en cours : " + ex.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
+                }
+            	
+            	
+  
+            	dispose();	
+            }
+        });
+        getContentPane().add(btnFermer, BorderLayout.SOUTH);
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> {
+            int idUtilisateur = 0; 
+            Facturefinal facturefinal = new Facturefinal(idUtilisateur);
+            facturefinal.setVisible(true);
+        });
+    }
+}
+

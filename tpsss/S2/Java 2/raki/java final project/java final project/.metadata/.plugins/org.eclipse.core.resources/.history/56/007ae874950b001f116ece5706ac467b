@@ -1,0 +1,167 @@
+package presentation;
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableColumnModel;
+
+import dao.PlatDAO;
+import dao.PlatscommandeDAO;
+import metier.Plat;
+import metier.Platscommande;
+import presentation.Menu;
+
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+public class ClientS extends JFrame {
+    private int id;
+    private JTable tablePlats;
+ 
+
+    public ClientS(int id) {
+        this.id = id;
+        setTitle("Plats Salés");
+        setSize(600, 400);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
+        
+        // model
+        DefaultTableModel model = new DefaultTableModel();
+        model.addColumn("Sélection");
+        model.addColumn("Id");
+        model.addColumn("Nom");
+        model.addColumn("Prix");
+        model.addColumn("Quantité");
+        // charger model 
+        try {
+            PlatDAO pdao = new PlatDAO();
+            List<Plat> platsalé = pdao.getPlatSalé();
+            for (Plat plat : platsalé) {
+                model.addRow(new Object[]{false,plat.getIdPlat(), plat.getNomPlat(), plat.getPrix(),0}); // Ajoutez une case à cocher pour chaque plat
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, "Erreur lors de la récupération des plats : " + e.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
+        }
+
+        // table model
+        tablePlats = new JTable(model);
+        tablePlats.setPreferredScrollableViewportSize(new Dimension(500, 300));
+        tablePlats.setFillsViewportHeight(true);
+
+        //JScrollPane
+        JScrollPane scrollPane = new JScrollPane(tablePlats);
+        getContentPane().add(scrollPane);
+
+        // checkbox 
+        tablePlats.getColumnModel().getColumn(0).setCellRenderer(new CheckBoxRenderer());
+        tablePlats.getColumnModel().getColumn(0).setCellEditor(new CheckBoxEditor());
+        tablePlats.getColumnModel().getColumn(0).setPreferredWidth(80);
+
+        //button ajouter 
+     // Création du conteneur principal avec BorderLayout
+        JPanel contentPane = new JPanel(new BorderLayout());
+
+        // Ajout de la table à la partie centrale
+        
+        contentPane.add(scrollPane, BorderLayout.CENTER);
+
+       // bouton retour
+        JButton btnRetour = new JButton("Retour");
+        btnRetour.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	Menu choix=new Menu(id);
+        		choix.setVisible(true);
+        		dispose();
+            }});
+        // Création du bouton Ajouter
+        JButton btnAjouter = new JButton("Ajouter");
+        btnAjouter.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    PlatscommandeDAO pdao = new PlatscommandeDAO();
+                    for (int row = 0; row < tablePlats.getRowCount(); row++) {
+                        boolean isSelected = (boolean) tablePlats.getValueAt(row, 0);
+
+                        if (isSelected) {
+                        	
+                        		 int idPlat = (int) tablePlats.getValueAt(row, 1);
+                                 String nom=(String) tablePlats.getValueAt(row,2);
+                                 String quantiteS=(String) tablePlats.getValueAt(row,4);
+                                 int quantite = Integer.parseInt(quantiteS);
+                                 Platscommande plat = new Platscommande(idPlat,nom,quantite, id);
+                                 pdao.ajouterPlatsCommande(plat);
+                                 JOptionPane.showMessageDialog(ClientS.this, "Plats ajoutés avec succès.", "Succès", JOptionPane.INFORMATION_MESSAGE);
+                        	
+                           
+                        }
+                    }
+                    
+                } catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(ClientS.this, "Erreur lors de l'ajout des plats : " + ex.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
+
+        // Ajout du bouton Ajouter dans la partie sud
+        JPanel boutonPanel = new JPanel(new FlowLayout());
+        boutonPanel.add(btnAjouter);
+        boutonPanel.add(btnRetour);
+
+        // Ajout du conteneur principal au contenu du JFrame
+        setContentPane(contentPane);
+        contentPane.add(boutonPanel, BorderLayout.SOUTH);
+    }
+    
+
+    // Classe Renderer personnalisée pour les cases à cocher
+    class CheckBoxRenderer extends JCheckBox implements TableCellRenderer {
+        public CheckBoxRenderer() {
+            setHorizontalAlignment(JLabel.CENTER);
+        }
+
+        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+            setSelected((value != null && (boolean) value));
+            return this;
+        }
+    }
+
+    // Classe Editor personnalisée pour les cases à cocher
+    class CheckBoxEditor extends DefaultCellEditor {
+        public CheckBoxEditor() {
+            super(new JCheckBox());
+            JCheckBox checkBox = (JCheckBox) getComponent();
+            checkBox.setHorizontalAlignment(JLabel.CENTER);
+            checkBox.addItemListener(new ItemListener() {
+                public void itemStateChanged(ItemEvent e) {
+                    fireEditingStopped();
+                }
+            });
+        }
+
+        public Object getCellEditorValue() {
+            return ((JCheckBox) getComponent()).isSelected();
+        }
+        
+        
+   
+    }
+    
+    
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> {
+            int id = 0;
+            ClientS clientS = new ClientS(id);
+            clientS.setVisible(true);
+        });
+    }
+}

@@ -1,0 +1,75 @@
+package presentation;
+
+import javax.swing.*;
+
+import dao.UtilisateurDAO;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.SQLException;
+
+public class Menu extends JFrame {
+    private JComboBox<String> comboBox;
+    private int id;
+   
+
+    public Menu(int id) throws SQLException {
+    	this.id=id;
+        setTitle("Choisir un menu");
+        setSize(300, 150);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
+
+        String[] menus = {"Menu Salé", "Menu Sucré"};
+        comboBox = new JComboBox<>(menus);
+        comboBox.setSelectedIndex(0);
+
+        JButton btnChoisir = new JButton("Choisir");
+        btnChoisir.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String selectedMenu = (String) comboBox.getSelectedItem();
+                if (selectedMenu.equals("Menu Salé")) {
+                    ClientS clientS = new ClientS(id);
+                    clientS.setVisible(true);
+                    dispose();
+                } else {
+                	ClientSu clientSu = new ClientSu(id);
+                    clientSu.setVisible(true);
+                    dispose();
+                    
+                }
+            }
+        });
+        JButton btnLogout = new JButton("Logout");
+        btnLogout.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	JOptionPane.showMessageDialog(Menu.this, "Bon appetit", "Succès", JOptionPane.INFORMATION_MESSAGE);
+                Choisir choix=new Choisir();
+                choix.setVisible(true);
+                
+                dispose();
+                }
+        });
+
+        JPanel panel = new JPanel();
+        panel.add(new JLabel("Choisir un menu : "));
+        panel.add(comboBox);
+        panel.add(btnChoisir);
+        panel.add(btnLogout);
+        UtilisateurDAO u = new UtilisateurDAO();
+        JLabel lblId = new JLabel("Bienvenue : " + u.getNom(id)); 
+        
+        panel.add(lblId);
+        getContentPane().add(panel);
+    }
+
+    public static void main(String[] args) {
+    	int id=0;
+        SwingUtilities.invokeLater(() -> {
+            Menu menu = new Menu(id);
+            menu.setVisible(true);
+        });
+    }
+}

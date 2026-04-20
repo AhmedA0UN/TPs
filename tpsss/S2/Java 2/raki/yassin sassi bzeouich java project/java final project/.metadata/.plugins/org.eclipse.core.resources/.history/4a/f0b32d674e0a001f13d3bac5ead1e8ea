@@ -1,0 +1,65 @@
+package presentation;
+
+import dao.CommandeDAO;
+import dao.PlatscommandeDAO;
+import metier.Commande;
+import metier.Platscommande;
+
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.List;
+
+public class ViewP extends JFrame {
+    private JTable tableCommandes;
+
+    public ViewP(int idU) {
+        setTitle("Plats");
+        setSize(450, 301);
+        //setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
+
+        // Créer un modèle de table
+        DefaultTableModel model = new DefaultTableModel();
+        model.addColumn("Nom Plat");
+        model.addColumn("ID Quantite");
+       
+
+        // Récupérer les données des commandes en cours depuis la base de données
+        try {
+        	PlatscommandeDAO pc= new PlatscommandeDAO();
+            List<Platscommande> lpc = pc.getPlatCommande(idU); // Supposons que vous avez une méthode pour récupérer toutes les commandes en cours de la base de données
+            for (Platscommande p : lpc) {
+                model.addRow(new Object[]{p.getNomPlat(),p.getQuantite()});
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, "Erreur lors de la récupération des commandes en cours : " + e.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
+        }
+
+        // Créer la table avec le modèle
+        tableCommandes = new JTable(model);
+        tableCommandes.setPreferredScrollableViewportSize(new Dimension(500, 300));
+        tableCommandes.setFillsViewportHeight(true);
+
+        // Ajouter la table à un JScrollPane
+        JScrollPane scrollPane = new JScrollPane(tableCommandes);
+
+        getContentPane().add(scrollPane);
+        
+        };
+        
+       
+        
+    
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> {
+            CommandeEnCours commandes = new CommandeEnCours();
+            commandes.setVisible(true);
+        });
+    }
+}
