@@ -54,7 +54,10 @@ public class ClientSu extends JFrame {
 
         try {
             PlatDAO pdao = new PlatDAO();
-            List<Plat> platsSucres = pdao.getPlatByTypeMenu("Sucré"); // Changé pour utiliser getPlatByTypeMenu
+            List<Plat> platsSucres = pdao.getPlatByTypeMenu("Menu Sucré");
+            if (platsSucres.isEmpty()) {
+                platsSucres = pdao.getPlatByTypeMenu("Menu Sucre");
+            }
             for (Plat plat : platsSucres) {
                 model.addRow(new Object[]{
                     false, 

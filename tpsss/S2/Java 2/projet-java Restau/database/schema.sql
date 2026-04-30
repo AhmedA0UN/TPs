@@ -60,6 +60,10 @@ ON DUPLICATE KEY UPDATE nomU = VALUES(nomU);
 
 INSERT INTO plat (nomPlat, prix, typeMenu, typePlat, description)
 VALUES
-  ('Salade Cesar', 12.50, 'Menu Sale', 'Entree', 'Salade avec poulet grille'),
-  ('Tarte aux pommes', 9.00, 'Menu Sucre', 'Dessert', 'Tarte maison')
+  ('Salade Cesar', 12.50, 'Menu Salé', 'Entrée', 'Salade avec poulet grillé'),
+  ('Bruschetta tomates', 10.00, 'Menu Salé', 'Entrée', 'Pain grillé, tomates fraîches et basilic'),
+  ('Tagine poulet', 35.00, 'Menu Salé', 'Plat principal', 'Tagine aux olives et citron confit'),
+  ('Tarte aux pommes', 9.00, 'Menu Sucré', 'Dessert', 'Tarte maison aux pommes caramélisées'),
+  ('Fondant au chocolat', 11.50, 'Menu Sucré', 'Dessert', 'Moelleux au chocolat noir'),
+  ('Crème caramel', 8.50, 'Menu Sucré', 'Dessert', 'Dessert onctueux au caramel')
 ON DUPLICATE KEY UPDATE nomPlat = VALUES(nomPlat);

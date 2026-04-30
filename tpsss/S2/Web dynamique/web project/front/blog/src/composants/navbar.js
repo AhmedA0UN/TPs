@@ -12,7 +12,7 @@ function Navbar() {
           <img src={dglImg} alt="Profile" />
         
         <li>
-          <h4>b7md_shop</h4>
+          <h4>Daagla_shop</h4>
         </li>
         <li>
           <Link to="/art">Art</Link>

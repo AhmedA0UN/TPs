@@ -62,7 +62,10 @@ public class ClientS extends JFrame {
         // Load data
         try {
             PlatDAO pdao = new PlatDAO();
-            List<Plat> platsalé = pdao.getPlatByTypeMenu("salé");
+            List<Plat> platsalé = pdao.getPlatByTypeMenu("Menu Salé");
+            if (platsalé.isEmpty()) {
+                platsalé = pdao.getPlatByTypeMenu("Menu Sale");
+            }
             for (Plat plat : platsalé) {
                 model.addRow(new Object[]{
                     false, 

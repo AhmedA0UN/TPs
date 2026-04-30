@@ -1,7 +1,7 @@
 {
     "java.project.referencedLibraries": [
         "lib/**/*.jar",
-        "src/lib/mysql-connector-j-9.5.0.jar"
+        "src/lib/mysql-connector-j-9.5.0.jar",
     ],
     "folder-color.pathColors": [],
     "java.debug.settings.onBuildFailureProceed": true
