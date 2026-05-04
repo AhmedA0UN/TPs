@@ -1,9 +1,7 @@
 package view;
 
 import dao.PlatscommandeDAO;
-import dao.PlatDAO;
 import model.Platscommande;
-import model.Plat;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -48,17 +46,12 @@ public class ViewP extends JFrame {
         model.addColumn("Total");
 
         // Load data
-        double totalGlobal = 0.0;
         try {
             PlatscommandeDAO pc = new PlatscommandeDAO();
-            PlatDAO pDao = new PlatDAO();
             List<Platscommande> lpc = pc.getPlatCommande(idU);
             for (Platscommande p : lpc) {
-                // Récupérer le prix réel depuis la base de données
-                Plat plat = pDao.getPlatById(p.getIdPlat());
-                double prixUnitaire = (plat != null) ? plat.getPrix() : 0.0;
+                double prixUnitaire = 0.0; // À remplacer par le prix réel depuis la base
                 double total = p.getQuantite() * prixUnitaire;
-                totalGlobal += total;
                 model.addRow(new Object[]{
                     p.getNomPlat(),
                     p.getQuantite(),
@@ -104,7 +97,7 @@ public class ViewP extends JFrame {
         // Add total panel
         JPanel totalPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         totalPanel.setBackground(new Color(245, 245, 245));
-        JLabel totalLabel = new JLabel(String.format("Total: %.2f €", totalGlobal));
+        JLabel totalLabel = new JLabel("Total: 00.00 €");
         totalLabel.setFont(new Font("Segoe UI", Font.BOLD, 14));
         totalPanel.add(totalLabel);
         mainPanel.add(totalPanel, BorderLayout.SOUTH);

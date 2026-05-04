@@ -16,6 +16,8 @@ import java.util.List;
 public class ClientS extends JFrame {
     private int id;
     private JTable tablePlats;
+    private DefaultTableModel model;
+    private JComboBox<String> typePlatFilter;
 
     public ClientS(int id) {
         this.id = id;
@@ -38,8 +40,28 @@ public class ClientS extends JFrame {
         titleLabel.setForeground(Color.WHITE);
         headerPanel.add(titleLabel);
 
+        JPanel filterPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
+        filterPanel.setBackground(new Color(245, 245, 245));
+        JLabel filterLabel = new JLabel("Filtrer par type :");
+        filterLabel.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        typePlatFilter = new JComboBox<>(new String[]{
+            "Tous",
+            "Entrée",
+            "Plat secondaire",
+            "Plat principal",
+            "Dessert",
+            "Boisson"
+        });
+        typePlatFilter.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        JButton btnFiltrer = new JButton("Afficher");
+        styleButton(btnFiltrer, new Color(33, 150, 243));
+        btnFiltrer.addActionListener(e -> loadPlatsData());
+        filterPanel.add(filterLabel);
+        filterPanel.add(typePlatFilter);
+        filterPanel.add(btnFiltrer);
+
         // Table model
-        DefaultTableModel model = new DefaultTableModel() {
+        model = new DefaultTableModel() {
             @Override
             public Class<?> getColumnClass(int columnIndex) {
                 return columnIndex == 0 ? Boolean.class : super.getColumnClass(columnIndex);
@@ -59,32 +81,14 @@ public class ClientS extends JFrame {
         model.addColumn("Description");
         model.addColumn("Quantité");
 
-        // Load data
-        try {
-            PlatDAO pdao = new PlatDAO();
-            List<Plat> platsalé = pdao.getPlatByTypeMenu("salé");
-            for (Plat plat : platsalé) {
-                model.addRow(new Object[]{
-                    false, 
-                    plat.getIdPlat(), 
-                    plat.getNomPlat(), 
-                    plat.getPrix(),
-                    plat.getTypePlat(),
-                    plat.getDescription(),
-                    1 // Quantité initiale
-                });
-            }
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(this, "Erreur lors de la récupération des plats : " + e.getMessage(), 
-                "Erreur", JOptionPane.ERROR_MESSAGE);
-        }
-
         // Create table with model
         tablePlats = new JTable(model);
         tablePlats.setFont(new Font("Segoe UI", Font.PLAIN, 14));
         tablePlats.setRowHeight(25);
         tablePlats.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 14));
         tablePlats.setFillsViewportHeight(true);
+
+        loadPlatsData();
 
         // Configurer l'éditeur pour la colonne Quantité
         tablePlats.getColumnModel().getColumn(6).setCellEditor(new DefaultCellEditor(new JTextField()));
@@ -131,12 +135,48 @@ public class ClientS extends JFrame {
 
         btnAjouter.addActionListener(e -> ajouterPlatsAuPanier());
 
+        JPanel northPanel = new JPanel(new BorderLayout());
+        northPanel.setOpaque(false);
+        northPanel.add(headerPanel, BorderLayout.NORTH);
+        northPanel.add(filterPanel, BorderLayout.SOUTH);
+
         // Add components to main panel
-        mainPanel.add(headerPanel, BorderLayout.NORTH);
+        mainPanel.add(northPanel, BorderLayout.NORTH);
         mainPanel.add(scrollPane, BorderLayout.CENTER);
         mainPanel.add(buttonPanel, BorderLayout.SOUTH);
 
         setContentPane(mainPanel);
+    }
+
+    private void loadPlatsData() {
+        model.setRowCount(0);
+
+        try {
+            PlatDAO pdao = new PlatDAO();
+            List<Plat> platsSale = pdao.getPlatByTypeMenu("Menu Salé");
+            String selectedType = (String) typePlatFilter.getSelectedItem();
+
+            for (Plat plat : platsSale) {
+                if (!"Tous".equals(selectedType) && !selectedType.equalsIgnoreCase(plat.getTypePlat())) {
+                    continue;
+                }
+
+                model.addRow(new Object[]{
+                    false,
+                    plat.getIdPlat(),
+                    plat.getNomPlat(),
+                    plat.getPrix(),
+                    plat.getTypePlat(),
+                    plat.getDescription(),
+                    1
+                });
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this,
+                "Erreur lors de la récupération des plats : " + e.getMessage(),
+                "Erreur",
+                JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     private void ajouterPlatsAuPanier() {

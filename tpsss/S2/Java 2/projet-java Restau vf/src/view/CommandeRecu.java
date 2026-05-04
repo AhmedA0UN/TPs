@@ -7,23 +7,20 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
 import java.util.List;
+import java.text.SimpleDateFormat;
 
-public class CommandeEnCours extends JFrame {
+public class CommandeRecu extends JFrame {
     private JTable tableCommandes;
-    private JButton btnRefresh;
-    private JButton btnValider;
-    private JButton btnRetour;
 
-    public CommandeEnCours() {
-        setTitle("Commandes en Cours - Gestion Restaurant");
-        setSize(600, 400);
+    public CommandeRecu() {
+        setTitle("Commandes Prêtes - Gestion Restaurant");
+        setSize(800, 500);
         setLocationRelativeTo(null);
         setResizable(false);
         initializeUI();
-        loadCommandes();
     }
 
     private void initializeUI() {
@@ -35,7 +32,7 @@ public class CommandeEnCours extends JFrame {
         // Header panel
         JPanel headerPanel = new JPanel();
         headerPanel.setBackground(new Color(70, 130, 180));
-        JLabel titleLabel = new JLabel("COMMANDES EN COURS", SwingConstants.CENTER);
+        JLabel titleLabel = new JLabel("COMMANDES PRÊTES À SERVIR", SwingConstants.CENTER);
         titleLabel.setFont(new Font("Segoe UI", Font.BOLD, 18));
         titleLabel.setForeground(Color.WHITE);
         headerPanel.add(titleLabel);
@@ -52,6 +49,26 @@ public class CommandeEnCours extends JFrame {
         model.addColumn("ID Client");
         model.addColumn("État");
         model.addColumn("Date");
+        model.addColumn("Montant");
+
+        // Load data
+        try {
+            CommandeDAO cdao = new CommandeDAO();
+            List<Commande> commandes = cdao.getCommandesByState("prête");
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+            
+            for (Commande commande : commandes) {
+                model.addRow(new Object[]{
+                    commande.getIdCommande(),
+                    commande.getIdClient(),
+                    commande.getEtat(),
+                    dateFormat.format(commande.getDate()),
+                    String.format("%.2f €", commande.getPrixC())
+                });
+            }
+        } catch (SQLException e) {
+            showError("Erreur lors du chargement des commandes : " + e.getMessage());
+        }
 
         // Create table with model
         tableCommandes = new JTable(model);
@@ -76,20 +93,16 @@ public class CommandeEnCours extends JFrame {
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 15, 10));
         buttonPanel.setBackground(new Color(245, 245, 245));
 
-        btnValider = createButton("Valider Commande", new Color(76, 175, 80));
-        btnValider.addActionListener(e -> validerCommande());
+        JButton btnFacture = createButton("Générer Facture", new Color(76, 175, 80));
+        btnFacture.addActionListener(this::genererFacture);
 
-        btnRefresh = createButton("Actualiser", new Color(33, 150, 243));
-        btnRefresh.addActionListener(e -> loadCommandes());
-
-        btnRetour = createButton("Retour", new Color(150, 150, 150));
+        JButton btnRetour = createButton("Retour", new Color(150, 150, 150));
         btnRetour.addActionListener(e -> {
             new Serveur().setVisible(true);
             dispose();
         });
 
-        buttonPanel.add(btnValider);
-        buttonPanel.add(btnRefresh);
+        buttonPanel.add(btnFacture);
         buttonPanel.add(btnRetour);
 
         // Add components to main panel
@@ -100,78 +113,26 @@ public class CommandeEnCours extends JFrame {
         setContentPane(mainPanel);
     }
 
-    private void loadCommandes() {
-        DefaultTableModel model = (DefaultTableModel) tableCommandes.getModel();
-        model.setRowCount(0); // Clear existing data
-        
-        try {
-            CommandeDAO cdao = new CommandeDAO();
-            List<Commande> commandes = cdao.getCommandesByState("en cours");
-            for (Commande commande : commandes) {
-                model.addRow(new Object[]{
-                    commande.getIdCommande(), 
-                    commande.getIdClient(), 
-                    commande.getEtat(),
-                    new SimpleDateFormat("dd/MM/yyyy HH:mm").format(commande.getDate())
-                });
-            }
-        } catch (SQLException e) {
-            showError("Erreur lors du chargement des commandes : " + e.getMessage());
-        }
-    }
-
-    private void validerCommande() {
+    private void genererFacture(ActionEvent e) {
         int selectedRow = tableCommandes.getSelectedRow();
         if (selectedRow == -1) {
-            showError("Veuillez sélectionner une commande à valider");
+            showError("Veuillez sélectionner une commande");
             return;
         }
 
-        try {
-            int idCommande = (int) tableCommandes.getValueAt(selectedRow, 0);
-            
-            // Proposer le choix d'état
-            String[] options = {"Prête", "Terminée", "Annuler"};
-            int choice = JOptionPane.showOptionDialog(
-                this,
-                "Quel est le nouvel état de la commande ?",
-                "Mise à jour de la commande",
-                JOptionPane.YES_NO_CANCEL_OPTION,
-                JOptionPane.QUESTION_MESSAGE,
-                null,
-                options,
-                options[0]
-            );
-            
-            if (choice == JOptionPane.CLOSED_OPTION || choice == 2) {
-                return; // Annuler
-            }
-            
-            CommandeDAO cdao = new CommandeDAO();
-            String newState = (choice == 0) ? "prête" : "terminée";
-            cdao.updateCommandeState(idCommande, newState);
-            
-            JOptionPane.showMessageDialog(this,
-                "Commande " + idCommande + " mise à jour en état: " + newState,
-                "Succès",
-                JOptionPane.INFORMATION_MESSAGE);
-            
-            loadCommandes(); // Rafraîchir la liste
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(this, 
-                "Erreur lors de la mise à jour: " + ex.getMessage(), 
-                "Erreur", 
-                JOptionPane.ERROR_MESSAGE);
-        }
+        int idCommande = (int) tableCommandes.getValueAt(selectedRow, 0);
+        Facture facture = new Facture();
+        facture.setIdCommande(idCommande); // Utilisation de la nouvelle méthode
+        facture.setVisible(true);
     }
 
     private JButton createButton(String text, Color bgColor) {
         JButton button = new JButton(text);
         button.setFont(new Font("Segoe UI", Font.BOLD, 14));
         button.setBackground(bgColor);
-        button.setForeground(Color.blue);
+        button.setForeground(Color.BLACK);
         button.setFocusPainted(false);
-        button.setBorder(BorderFactory.createEmptyBorder(8, 15, 8, 15));
+        button.setBorder(BorderFactory.createEmptyBorder(8, 20, 8, 20));
         
         button.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
@@ -201,7 +162,7 @@ public class CommandeEnCours extends JFrame {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            new CommandeEnCours().setVisible(true);
+            new CommandeRecu().setVisible(true);
         });
     }
 }

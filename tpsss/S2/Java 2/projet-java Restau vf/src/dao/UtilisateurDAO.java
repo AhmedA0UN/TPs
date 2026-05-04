@@ -1,0 +1,100 @@
+package dao;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import model.Utilisateur;
+import util.SingletonConnection;
+
+public class UtilisateurDAO {
+	Connection connection=SingletonConnection.getInstance();
+
+
+
+    public void ajouterUtilisateur(Utilisateur utilisateur) throws SQLException {
+        String sql = "INSERT INTO utilisateur (idU, nomU, mdpU, role) VALUES (?, ?, ?, ?)";
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, utilisateur.getIdU());
+            statement.setString(2, utilisateur.getNomU());
+            statement.setString(3, utilisateur.getMdpU());
+            statement.setString(4, utilisateur.getRole());
+            statement.executeUpdate();
+        }
+    
+    }
+    public int existeUtilisateur(int idU) throws SQLException{
+    	String sql="select idU from utilisateur where idU=?";
+    	try(PreparedStatement statement =connection.prepareStatement(sql)){
+    		statement.setInt(1, idU);
+    		try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next())
+                	return 1;
+                else return 0;
+    		
+    	}
+    	
+    }}
+    	
+   
+    		
+    	public boolean verifMdpU(int id, String mdp) throws SQLException {
+    	        String sql = "SELECT * FROM utilisateur WHERE idU = ? AND mdpU = ?";
+    	        
+    	        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+    	            statement.setInt(1, id);
+    	            statement.setString(2, mdp);
+    	            
+    	            try (ResultSet resultSet = statement.executeQuery()) {
+    	                return resultSet.next(); // Si le ResultSet contient une ligne, l'authentification est réussie
+    	            }
+    	        }
+    	    }
+  
+    	public boolean getRole(int id, String mdp,String role) throws SQLException {
+	        String sql = "SELECT role FROM utilisateur WHERE idU = ? AND mdpU = ?";
+	        
+	        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+	            statement.setInt(1, id);
+	            statement.setString(2, mdp);
+	            
+	            try (ResultSet resultSet = statement.executeQuery()) {
+	                resultSet.next();
+	                return (resultSet.getString("role").equals(role));
+	            }
+	        }
+	    }
+    	public Utilisateur getUtilisateurById(int id) throws SQLException {
+    	    String sql = "SELECT * FROM utilisateur WHERE idU = ?";
+    	    try (PreparedStatement statement = connection.prepareStatement(sql)) {
+    	        statement.setInt(1, id);
+    	        try (ResultSet resultSet = statement.executeQuery()) {
+    	            if (resultSet.next()) {
+    	                return new Utilisateur(
+    	                    resultSet.getInt("idU"),
+    	                    resultSet.getString("nomU"),
+    	                    resultSet.getString("mdpU"),
+    	                    resultSet.getString("role")
+    	                );
+    	            }
+    	        }
+    	    }
+    	    return null;
+    	}
+    	public String getNom(int id) throws SQLException{
+    		String sql="select nomU from utilisateur where idU =?";
+    		try ( PreparedStatement statement=connection.prepareStatement(sql)){
+    			statement.setInt(1, id);
+    			try(ResultSet resultSet=statement.executeQuery()){
+    				if(resultSet.next())
+    				return (resultSet.getString("nomU"));
+    				else return "";
+    			}
+    			
+    		}
+    	}
+    	
+    		
+    	
+    	}

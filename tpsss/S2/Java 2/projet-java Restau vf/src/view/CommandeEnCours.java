@@ -128,35 +128,12 @@ public class CommandeEnCours extends JFrame {
         }
 
         try {
-            int idCommande = (int) tableCommandes.getValueAt(selectedRow, 0);
-            
-            // Proposer le choix d'état
-            String[] options = {"Prête", "Terminée", "Annuler"};
-            int choice = JOptionPane.showOptionDialog(
-                this,
-                "Quel est le nouvel état de la commande ?",
-                "Mise à jour de la commande",
-                JOptionPane.YES_NO_CANCEL_OPTION,
-                JOptionPane.QUESTION_MESSAGE,
-                null,
-                options,
-                options[0]
-            );
-            
-            if (choice == JOptionPane.CLOSED_OPTION || choice == 2) {
-                return; // Annuler
-            }
-            
             CommandeDAO cdao = new CommandeDAO();
-            String newState = (choice == 0) ? "prête" : "terminée";
-            cdao.updateCommandeState(idCommande, newState);
+            // Pour marquer une commande comme terminée
+            cdao.updateCommandeState(123, "terminée");
             
-            JOptionPane.showMessageDialog(this,
-                "Commande " + idCommande + " mise à jour en état: " + newState,
-                "Succès",
-                JOptionPane.INFORMATION_MESSAGE);
-            
-            loadCommandes(); // Rafraîchir la liste
+            // Pour marquer une commande comme prête
+            cdao.updateCommandeState(456, "prête");
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(this, 
                 "Erreur lors de la mise à jour: " + ex.getMessage(), 
