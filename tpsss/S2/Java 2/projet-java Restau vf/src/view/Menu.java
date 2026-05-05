@@ -17,7 +17,7 @@ public class Menu extends JFrame {
 
     private void initializeUI() {
         setTitle("Menu Principal - Gestion de Restaurant");
-        setSize(500, 350);
+        setSize(500, 430);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setResizable(false);
@@ -48,8 +48,10 @@ public class Menu extends JFrame {
         JPanel centerPanel = new JPanel(new GridBagLayout());
         centerPanel.setBackground(new Color(245, 245, 245));
         GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(15, 15, 15, 15);
+        gbc.insets = new Insets(10, 15, 10, 15);
         gbc.anchor = GridBagConstraints.CENTER;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.weightx = 1.0;
 
         // Bouton pour le menu salé
         JButton menuSaleButton = new JButton("Menu Salé");
@@ -81,6 +83,16 @@ public class Menu extends JFrame {
         });
         gbc.gridy = 2;
         centerPanel.add(descriptionButton, gbc);
+
+        // Bouton pour afficher la facture
+        JButton factureButton = new JButton("Afficher facture");
+        styleButton(factureButton, new Color(156, 39, 176)); // Purple
+        factureButton.addActionListener(e -> {
+            new Facturefinal(id).setVisible(true);
+            dispose();
+        });
+        gbc.gridy = 3;
+        centerPanel.add(factureButton, gbc);
 
         // Button panel
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 0));
