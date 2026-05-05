@@ -13,6 +13,7 @@ public class AfficherDescriptionPlat extends JFrame {
     private JTextArea descriptionArea;
     private JLabel typeMenuLabel;
     private JLabel typePlatLabel;
+    private JLabel prixLabel;
     private int userId;
 
     public AfficherDescriptionPlat(int userId) {
@@ -94,7 +95,7 @@ public class AfficherDescriptionPlat extends JFrame {
         centerPanel.add(prixTitleLabel, gbc);
 
         gbc.gridx = 1;
-        JLabel prixLabel = new JLabel("");
+        prixLabel = new JLabel("");
         prixLabel.setFont(new Font("Segoe UI", Font.BOLD, 14));
         centerPanel.add(prixLabel, gbc);
 
@@ -168,6 +169,7 @@ public class AfficherDescriptionPlat extends JFrame {
             if (plat != null) {
                 typeMenuLabel.setText(plat.getTypeMenu());
                 typePlatLabel.setText(plat.getTypePlat());
+                prixLabel.setText(String.format("%.2f DH", plat.getPrix()));
                 descriptionArea.setText(plat.getDescription() != null ? 
                     plat.getDescription() : "Aucune description disponible");
             }
