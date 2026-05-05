@@ -51,9 +51,9 @@ public class Facturefinal extends JFrame {
         
         model.addColumn("ID Plat");
         model.addColumn("Nom du Plat");
-        model.addColumn("Prix Unitaire (DH)");
+        model.addColumn("Prix Unitaire (DT)");
         model.addColumn("Quantité");
-        model.addColumn("Total (DH)");
+        model.addColumn("Total (DT)");
 
         // Create table with model
         tablePlatsCommandes = new JTable(model);
@@ -76,7 +76,7 @@ public class Facturefinal extends JFrame {
         JLabel lblTotal = new JLabel("Total à payer : ");
         lblTotal.setFont(new Font("Segoe UI", Font.BOLD, 16));
         
-        lblPrixTotal = new JLabel("0.00 DH");
+        lblPrixTotal = new JLabel("0.00 DT");
         lblPrixTotal.setFont(new Font("Segoe UI", Font.BOLD, 18));
         lblPrixTotal.setForeground(new Color(220, 0, 0));
         
@@ -135,7 +135,7 @@ public class Facturefinal extends JFrame {
             
             // Update total price in DB and UI
             cdao.mettreprix(idC, total);
-            lblPrixTotal.setText(String.format("%.2f DH", total));
+            lblPrixTotal.setText(String.format("%.2f DT", total));
             
         } catch (SQLException e) {
             showError("Erreur lors de la génération de la facture : " + e.getMessage());
