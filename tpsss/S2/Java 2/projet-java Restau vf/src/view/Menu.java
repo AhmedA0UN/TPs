@@ -88,8 +88,15 @@ public class Menu extends JFrame {
         JButton factureButton = new JButton("Afficher facture");
         styleButton(factureButton, new Color(156, 39, 176)); // Purple
         factureButton.addActionListener(e -> {
-            new Facturefinal(id).setVisible(true);
-            dispose();
+            try {
+                new AfficherFacturequi(id).setVisible(true);
+                dispose();
+            } catch (IllegalStateException ex) {
+                JOptionPane.showMessageDialog(this,
+                    ex.getMessage(),
+                    "Erreur",
+                    JOptionPane.ERROR_MESSAGE);
+            }
         });
         gbc.gridy = 3;
         centerPanel.add(factureButton, gbc);

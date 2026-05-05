@@ -42,6 +42,19 @@ public class CommandeDAO {
     			
     	
     }
+
+    public int getDerniereCommandeIdByUser(int idU) throws SQLException {
+        String sql = "SELECT idC FROM commande WHERE idU = ? ORDER BY date_commande DESC, idC DESC LIMIT 1";
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, idU);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    return resultSet.getInt("idC");
+                }
+            }
+        }
+        return -1;
+    }
     public void updateCommandeState(int idCommande, String nouvelEtat) throws SQLException {
         String sql = "UPDATE commande SET etat = ? WHERE idC = ?";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
