@@ -169,7 +169,7 @@ public class AfficherDescriptionPlat extends JFrame {
             if (plat != null) {
                 typeMenuLabel.setText(plat.getTypeMenu());
                 typePlatLabel.setText(plat.getTypePlat());
-                prixLabel.setText(String.format("%.2f DH", plat.getPrix()));
+                prixLabel.setText(String.format("%.2f DT", plat.getPrix()));
                 descriptionArea.setText(plat.getDescription() != null ? 
                     plat.getDescription() : "Aucune description disponible");
             }
