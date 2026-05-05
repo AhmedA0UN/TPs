@@ -1,8 +1,9 @@
 package util;
 
-import java.io.FileInputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -28,11 +29,16 @@ public class SingletonConnection {
 				cnfe.printStackTrace();
 				return;
 			}
-			File configFile = new File("src/conf.properties");
-			if (!configFile.exists()) {
-				configFile = new File("conf.properties");
+			InputStream configStream = SingletonConnection.class.getClassLoader().getResourceAsStream("conf.properties");
+			File configFile = new File(System.getProperty("user.dir"), "src/conf.properties");
+			if (configStream == null && !configFile.exists()) {
+				configFile = new File(System.getProperty("user.dir"), "conf.properties");
 			}
-			props.load(new FileInputStream(configFile));
+			if (configStream != null) {
+				props.load(configStream);
+			} else {
+				props.load(new FileInputStream(configFile));
+			}
 			url = props.getProperty("jdbc.url");
 			user = props.getProperty("jdbc.user");
 			password = props.getProperty("jdbc.password");
@@ -42,7 +48,7 @@ public class SingletonConnection {
 			System.err.println("Impossible d'établir la connexion JDBC: " + e.getMessage());
 			e.printStackTrace();
 		} catch (IOException e) {
-			System.err.println("Impossible de lire conf.properties: " + e.getMessage());
+			System.err.println("Impossible de lire le fichier de configuration: " + e.getMessage());
 			e.printStackTrace();
 		}
 	}
