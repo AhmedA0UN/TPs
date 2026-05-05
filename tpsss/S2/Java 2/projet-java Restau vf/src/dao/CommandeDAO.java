@@ -32,11 +32,13 @@ public class CommandeDAO {
     	String sql = "SELECT idU FROM commande WHERE idC = ? and etat = 'prete'";
     	try (PreparedStatement statement = connection.prepareStatement(sql)){
     		statement.setInt(1,idCom);
-    		try(ResultSet resultSet = statement.executeQuery()){        		
-        		resultSet.next();
-        		return (resultSet.getInt("idU"));
-        	
-        	}
+    		try(ResultSet resultSet = statement.executeQuery()){
+    			if (resultSet.next()) {
+    				return resultSet.getInt("idU");
+    			} else {
+    				throw new SQLException("Aucune commande trouvée avec l'ID " + idCom);
+    			}
+    		}
     	}
     			
     			
@@ -44,7 +46,7 @@ public class CommandeDAO {
     }
 
     public int getDerniereCommandeIdByUser(int idU) throws SQLException {
-        String sql = "SELECT idC FROM commande WHERE idU = ? ORDER BY date_commande DESC, idC DESC LIMIT 1";
+        String sql = "SELECT idC FROM commande WHERE idU = ? AND etat IN ('prete','servie') ORDER BY date_commande DESC, idC DESC LIMIT 1";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setInt(1, idU);
             try (ResultSet resultSet = statement.executeQuery()) {
