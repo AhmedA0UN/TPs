@@ -81,7 +81,7 @@ public class CommandeEnCours extends JFrame {
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 15, 10));
         buttonPanel.setBackground(new Color(245, 245, 245));
 
-        btnValider = createButton("Valider Commande", new Color(76, 175, 80));
+        btnValider = createButton("Marquer comme prête", new Color(76, 175, 80));
         btnValider.addActionListener(e -> validerCommande());
 
         btnRefresh = createButton("Actualiser", new Color(33, 150, 243));
@@ -133,12 +133,14 @@ public class CommandeEnCours extends JFrame {
         }
 
         try {
+            int idCommande = (int) tableCommandes.getValueAt(selectedRow, 0);
             CommandeDAO cdao = new CommandeDAO();
-            // Pour marquer une commande comme terminée
-            cdao.updateCommandeState(123, "terminée");
-            
-            // Pour marquer une commande comme prête
-            cdao.updateCommandeState(456, "prête");
+            cdao.updateCommandeState(idCommande, "prête");
+            loadCommandes();
+            JOptionPane.showMessageDialog(this,
+                "La commande " + idCommande + " a été marquée comme prête.",
+                "Succès",
+                JOptionPane.INFORMATION_MESSAGE);
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(this, 
                 "Erreur lors de la mise à jour: " + ex.getMessage(), 
