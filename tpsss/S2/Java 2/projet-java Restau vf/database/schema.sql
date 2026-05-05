@@ -4,6 +4,12 @@ CREATE DATABASE IF NOT EXISTS mydatabase
 
 USE mydatabase;
 
+CREATE TABLE IF NOT EXISTS menu (
+  idMenu INT PRIMARY KEY AUTO_INCREMENT,
+  nomMenu VARCHAR(100) NOT NULL,
+  description TEXT
+);
+
 CREATE TABLE IF NOT EXISTS utilisateur (
   idU INT auto_increment  PRIMARY KEY,
   nomU VARCHAR(100) NOT NULL,
@@ -15,9 +21,14 @@ CREATE TABLE IF NOT EXISTS plat (
   idPlat INT PRIMARY KEY AUTO_INCREMENT,
   nomPlat VARCHAR(120) NOT NULL,
   prix DECIMAL(10,2) NOT NULL,
+  idMenu INT NULL,
   typeMenu VARCHAR(50) NOT NULL,
   typePlat VARCHAR(50) NOT NULL,
-  description TEXT
+  description TEXT,
+  CONSTRAINT fk_plat_menu
+    FOREIGN KEY (idMenu) REFERENCES menu(idMenu)
+    ON DELETE SET NULL
+    ON UPDATE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS commande (
@@ -30,6 +41,35 @@ CREATE TABLE IF NOT EXISTS commande (
     FOREIGN KEY (idU) REFERENCES utilisateur(idU)
     ON DELETE CASCADE
     ON UPDATE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS facture (
+  idFacture INT PRIMARY KEY AUTO_INCREMENT,
+  idC INT NOT NULL,
+  date_facture DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  montantTotal DECIMAL(10,2) NOT NULL DEFAULT 0,
+  CONSTRAINT fk_facture_commande
+    FOREIGN KEY (idC) REFERENCES commande(idC)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS lignecommande (
+  idLigne INT PRIMARY KEY AUTO_INCREMENT,
+  idC INT NOT NULL,
+  idPlat INT NOT NULL,
+  quantite INT NOT NULL,
+  prixUnitaire DECIMAL(10,2) NOT NULL,
+  CONSTRAINT fk_lignecommande_commande
+    FOREIGN KEY (idC) REFERENCES commande(idC)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT fk_lignecommande_plat
+    FOREIGN KEY (idPlat) REFERENCES plat(idPlat)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT chk_lignecommande_quantite_positive
+    CHECK (quantite > 0)
 );
 
 CREATE TABLE IF NOT EXISTS platscommande (
