@@ -63,9 +63,14 @@ public class Facturefinal extends JFrame {
         JScrollPane scrollPane = new JScrollPane(tablePlatsCommandes);
         scrollPane.setBorder(BorderFactory.createEmptyBorder());
 
-        // Total panel
+        // Bottom panel combining total and button
+        JPanel bottomPanel = new JPanel(new BorderLayout());
+        bottomPanel.setBorder(BorderFactory.createEmptyBorder(15, 0, 0, 0));
+        bottomPanel.setBackground(new Color(245, 245, 245));
+        
+        // Total panel on the left
         JPanel totalPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        totalPanel.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 20));
+        totalPanel.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
         totalPanel.setBackground(new Color(245, 245, 245));
         
         JLabel lblTotal = new JLabel("Total à payer : ");
@@ -78,9 +83,9 @@ public class Facturefinal extends JFrame {
         totalPanel.add(lblTotal);
         totalPanel.add(lblPrixTotal);
 
-        // Button panel
+        // Button panel on the right
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 10));
-        buttonPanel.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
+        buttonPanel.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 20));
         buttonPanel.setBackground(new Color(245, 245, 245));
 
         JButton btnValider = createButton("Valider la Facture", new Color(76, 175, 80));
@@ -89,10 +94,12 @@ public class Facturefinal extends JFrame {
         // Add components
         buttonPanel.add(btnValider);
         
+        bottomPanel.add(totalPanel, BorderLayout.WEST);
+        bottomPanel.add(buttonPanel, BorderLayout.EAST);
+        
         mainPanel.add(headerPanel, BorderLayout.NORTH);
         mainPanel.add(scrollPane, BorderLayout.CENTER);
-        mainPanel.add(totalPanel, BorderLayout.SOUTH);
-        mainPanel.add(buttonPanel, BorderLayout.PAGE_END);
+        mainPanel.add(bottomPanel, BorderLayout.SOUTH);
 
         setContentPane(mainPanel);
     }
