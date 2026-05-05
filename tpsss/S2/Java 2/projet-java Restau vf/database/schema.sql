@@ -51,6 +51,7 @@ CREATE TABLE IF NOT EXISTS platscommande (
 );
 
 -- Donnees minimales de test
+/*
 INSERT INTO utilisateur (idU, nomU, mdpU, role)
 VALUES
   (1, 'admin', 'admin123', 'chef'),
@@ -63,3 +64,4 @@ VALUES
   ('Salade Cesar', 12.50, 'Menu Sale', 'Entree', 'Salade avec poulet grille'),
   ('Tarte aux pommes', 9.00, 'Menu Sucre', 'Dessert', 'Tarte maison')
 ON DUPLICATE KEY UPDATE nomPlat = VALUES(nomPlat);
+*/
