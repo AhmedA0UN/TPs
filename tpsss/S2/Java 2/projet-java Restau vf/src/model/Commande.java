@@ -1,6 +1,8 @@
 package model;
 
 import java.util.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Commande {
     private int idCommande;
@@ -8,6 +10,7 @@ public class Commande {
     private String etat;
     private Date date;  // Ajout du champ date
     private double prixC;
+    private List<LigneCommande> lignesCommande;
 
 
     public Commande(int idCommande, int idClient, String etat, Date date) {
@@ -17,7 +20,7 @@ public class Commande {
         this.date = date;
     }
     public Commande() {
-    	
+	    this.lignesCommande = new ArrayList<>();
     }
 
     
@@ -66,6 +69,41 @@ public class Commande {
 
     public void setEtat(String enCours) {
         this.etat = enCours;
+    }
+
+    public List<LigneCommande> getLignesCommande() {
+        return lignesCommande;
+    }
+
+    public void setLignesCommande(List<LigneCommande> lignesCommande) {
+        this.lignesCommande = lignesCommande;
+    }
+
+    public void ajouterLigneCommande(LigneCommande ligneCommande) {
+        if (lignesCommande == null) {
+            lignesCommande = new ArrayList<>();
+        }
+        lignesCommande.add(ligneCommande);
+    }
+
+    public double calculerTotal() {
+        double total = 0.0;
+        if (lignesCommande != null) {
+            for (LigneCommande ligneCommande : lignesCommande) {
+                total += ligneCommande.getSousTotal();
+            }
+        }
+        return total;
+    }
+
+    public void changerStatut(String nouvelEtat) {
+        this.etat = nouvelEtat;
+    }
+
+    @Override
+    public String toString() {
+        return "Commande[idCommande=" + idCommande + ", idClient=" + idClient
+            + ", etat=" + etat + ", date=" + date + ", prixC=" + prixC + "]";
     }
    
 
