@@ -5,6 +5,7 @@ public class Platscommande {
     private String nomPlat;
     private int quantite;
     private int idU;
+    private double prixUnitaire;
     public Platscommande() {
     }
 
@@ -13,6 +14,11 @@ public class Platscommande {
         this.nomPlat = nomPlat;
         this.quantite = quantite;
         this.idU = idU;
+    }
+
+    public Platscommande(int idPlat, String nomPlat, int quantite, int idU, double prixUnitaire) {
+        this(idPlat, nomPlat, quantite, idU);
+        this.prixUnitaire = prixUnitaire;
     }
 
     public int getIdPlat() {
@@ -45,6 +51,24 @@ public class Platscommande {
 
     public void setIdU(int idU) {
         this.idU = idU;
+    }
+
+    public double getPrixUnitaire() {
+        return prixUnitaire;
+    }
+
+    public void setPrixUnitaire(double prixUnitaire) {
+        this.prixUnitaire = prixUnitaire;
+    }
+
+    public double getSousTotal() {
+        return quantite * prixUnitaire;
+    }
+
+    @Override
+    public String toString() {
+        return "Platscommande[idPlat=" + idPlat + ", nomPlat=" + nomPlat + ", quantite=" + quantite
+            + ", idU=" + idU + ", prixUnitaire=" + prixUnitaire + "]";
     }
 }
 

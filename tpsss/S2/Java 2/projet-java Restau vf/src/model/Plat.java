@@ -7,6 +7,8 @@ public class Plat {
     private String typeMenu;  
     private String typePlat;  
     private String description;
+    private boolean disponible;
+    private int idMenu;
     
     
     public Plat() {
@@ -20,12 +22,24 @@ public class Plat {
         this.prix = p;
         this.typeMenu = typeMenu;
         this.typePlat = typePlat;
+        this.disponible = true;
     }
     
     
     public Plat(int id, String nom, double p, String typeMenu, String typePlat, String description) {
         this(id, nom, p, typeMenu, typePlat);
         this.description = description;
+    }
+
+    public Plat(int idPlat, String nomPlat, double prix, String typeMenu, String typePlat, String description, boolean disponible, int idMenu) {
+        this.idPlat = idPlat;
+        this.nomPlat = nomPlat;
+        this.prix = prix;
+        this.typeMenu = typeMenu;
+        this.typePlat = typePlat;
+        this.description = description;
+        this.disponible = disponible;
+        this.idMenu = idMenu;
     }
     
     
@@ -75,6 +89,28 @@ public class Plat {
     
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public boolean isDisponible() {
+        return disponible;
+    }
+
+    public void setDisponible(boolean disponible) {
+        this.disponible = disponible;
+    }
+
+    public int getIdMenu() {
+        return idMenu;
+    }
+
+    public void setIdMenu(int idMenu) {
+        this.idMenu = idMenu;
+    }
+
+    public String getInfo() {
+        return "Plat{idPlat=" + idPlat + ", nomPlat='" + nomPlat + "', prix=" + prix
+            + ", typeMenu='" + typeMenu + "', typePlat='" + typePlat + "', disponible=" + disponible
+            + ", idMenu=" + idMenu + ", description='" + description + "'}";
     }
     
     @Override
