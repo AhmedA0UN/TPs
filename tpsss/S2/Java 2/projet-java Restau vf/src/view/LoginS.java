@@ -11,7 +11,7 @@ public class LoginS extends JFrame {
     private JPasswordField txtMdp;
 
     public LoginS() {
-        setTitle("Connexion Serveur - Gestion de Restaurant");
+        setTitle("Connexion Serveur/Serveuse - Gestion de Restaurant");
         setSize(450, 300);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
@@ -42,7 +42,7 @@ public class LoginS extends JFrame {
         // Header panel
         JPanel headerPanel = new JPanel();
         headerPanel.setBackground(new Color(60, 90, 120));
-        JLabel titleLabel = new JLabel("CONNEXION SERVEUR", SwingConstants.CENTER);
+        JLabel titleLabel = new JLabel("CONNEXION SERVEUR/SERVEUSE", SwingConstants.CENTER);
         titleLabel.setFont(new Font("Segoe UI", Font.BOLD, 18));
         titleLabel.setForeground(Color.WHITE);
         headerPanel.add(titleLabel);
@@ -127,16 +127,17 @@ public class LoginS extends JFrame {
 
         int id = Integer.parseInt(idText);
         String mdp = new String(txtMdp.getPassword());
-        UtilisateurDAO u = new UtilisateurDAO();
 
         try {
+            UtilisateurDAO u = new UtilisateurDAO();
             if (u.existeUtilisateur(id) == 1) {
                 if (u.verifMdpU(id, mdp)) {
-                    if (u.getRole(id, mdp, "serveur")) {
-                        new Serveur().setVisible(true);
+                    // Accepter serveur ou serveuse comme rôle
+                    if (u.getRole(id, mdp, "serveur") || u.getRole(id, mdp, "serveuse")) {
+                        new Serveur(id).setVisible(true);
                         dispose();
                     } else {
-                        showError("Tu n'es pas un serveur");
+                        showError("Vous n'êtes pas serveur/serveuse");
                     }
                 } else {
                     showError("Mot de passe incorrect");
@@ -146,6 +147,8 @@ public class LoginS extends JFrame {
             }
         } catch (SQLException ex) {
             showError("Erreur lors de la connexion: " + ex.getMessage());
+        } catch (IllegalStateException ex) {
+            showError("Erreur");
         }
     }
 

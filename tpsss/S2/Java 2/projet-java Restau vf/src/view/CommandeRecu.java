@@ -14,8 +14,13 @@ import java.text.SimpleDateFormat;
 
 public class CommandeRecu extends JFrame {
     private JTable tableCommandes;
-
+    private int userId;
     public CommandeRecu() {
+        this(0);
+    }
+
+    public CommandeRecu(int userId) {
+        this.userId = userId;
         setTitle("Commandes Prêtes - Gestion Restaurant");
         setSize(800, 500);
         setLocationRelativeTo(null);
@@ -98,7 +103,7 @@ public class CommandeRecu extends JFrame {
 
         JButton btnRetour = createButton("Retour", new Color(150, 150, 150));
         btnRetour.addActionListener(e -> {
-            new Serveur().setVisible(true);
+            new Serveur(userId).setVisible(true);
             dispose();
         });
 

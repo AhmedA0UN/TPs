@@ -95,8 +95,9 @@ CREATE TABLE IF NOT EXISTS platscommande (
 INSERT INTO utilisateur (idU, nomU, mdpU, role)
 VALUES
   (1, 'admin', 'admin123', 'chef'),
-  (2, 'client1', 'client123', 'client'),
-  (3, 'serveuse1', 'serveuse123', 'serveuse')
+  (2, 'serveuse1', 'serveuse123', 'serveuse'),
+  (3, 'client1', 'client123', 'client')
+
 ON DUPLICATE KEY UPDATE nomU = VALUES(nomU);
 
 INSERT INTO plat (nomPlat, prix, typeMenu, typePlat, description)

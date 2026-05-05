@@ -1,6 +1,7 @@
 package util;
 
 import java.io.FileInputStream;
+import java.io.File;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -27,7 +28,11 @@ public class SingletonConnection {
 				cnfe.printStackTrace();
 				return;
 			}
-			props.load(new FileInputStream("conf.properties"));
+			File configFile = new File("src/conf.properties");
+			if (!configFile.exists()) {
+				configFile = new File("conf.properties");
+			}
+			props.load(new FileInputStream(configFile));
 			url = props.getProperty("jdbc.url");
 			user = props.getProperty("jdbc.user");
 			password = props.getProperty("jdbc.password");

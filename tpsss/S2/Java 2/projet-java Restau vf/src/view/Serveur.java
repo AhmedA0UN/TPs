@@ -11,8 +11,17 @@ import model.Platscommande;
 
 public class Serveur extends JFrame {
     private JTable tablePlatsCommandes;
-
+    private int userId;
     public Serveur() {
+        this(0);
+    }
+
+    public Serveur(int userId) {
+        this.userId = userId;
+        initializeUI();
+    }
+
+    private void initializeUI() {
         setTitle("Interface Serveur - Gestion de Restaurant");
         setSize(900, 500);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -100,9 +109,9 @@ public class Serveur extends JFrame {
 
         // Button actions
         btnAjouterCommande.addActionListener(e -> new Commander().setVisible(true));
-        btnCEncours.addActionListener(e -> new CommandeEnCours().setVisible(true));
+        btnCEncours.addActionListener(e -> new CommandeEnCours(userId).setVisible(true));
         btnCP.addActionListener(e -> {
-            new CommandeRecu().setVisible(true);
+            new CommandeRecu(userId).setVisible(true);
             dispose();
         });
         btnRefresh.addActionListener(e -> refreshTable());

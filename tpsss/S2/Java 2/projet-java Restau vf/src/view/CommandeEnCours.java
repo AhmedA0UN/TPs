@@ -16,8 +16,13 @@ public class CommandeEnCours extends JFrame {
     private JButton btnRefresh;
     private JButton btnValider;
     private JButton btnRetour;
-
+    private int userId;
     public CommandeEnCours() {
+        this(0);
+    }
+
+    public CommandeEnCours(int userId) {
+        this.userId = userId;
         setTitle("Commandes en Cours - Gestion Restaurant");
         setSize(600, 400);
         setLocationRelativeTo(null);
@@ -84,7 +89,7 @@ public class CommandeEnCours extends JFrame {
 
         btnRetour = createButton("Retour", new Color(150, 150, 150));
         btnRetour.addActionListener(e -> {
-            new Serveur().setVisible(true);
+            new Serveur(userId).setVisible(true);
             dispose();
         });
 
