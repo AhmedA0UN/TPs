@@ -80,6 +80,7 @@
 .x {
     cursor: pointer;
     font-size: 105%;
+    text-decoration: none;
 }
 
 .x:hover {
@@ -161,7 +162,10 @@
 
 .w {
     font-size: larger;
+    text-decoration: none;
 }
+
+
 
 
 #aff {

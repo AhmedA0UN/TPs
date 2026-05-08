@@ -70,7 +70,7 @@ function Notes() {
             {notes.map(({ text, complete, priority, t, title }, index) => (
               <div key={index} className='item'>
                 
-                <li >
+                <li className={complete ? "complete" : ""} >
                   <div className='affnote'>
                     <div className='afftitre'>
                       <span className='actions'>
@@ -90,14 +90,7 @@ function Notes() {
             ))}
           </ul>
 
-          <input 
-            id='additional-info-container' 
-            value={tit} 
-            onChange={(e) => setTit(e.target.value)} 
-            type="text" 
-            placeholder="Ajouter un Titre" 
-          />
-
+          <input id='additional-info-container' value={tit} onChange={(e) => setTit(e.target.value)} type="text" placeholder="Ajouter un Titre" />
           <div className="note-container">
             <textarea required id="additional-info" maxLength={Lmax} value={text}
               placeholder={`Ajouter une note... (${Lmax} caractères max)`} onChange={(e) => setText(e.target.value)} />
