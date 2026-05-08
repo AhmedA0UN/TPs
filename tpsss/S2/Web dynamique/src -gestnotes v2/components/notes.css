@@ -1,0 +1,58 @@
+.Notestyle {
+    border: 1px solid #3d3d3d;
+    margin: 50px 30px;
+    padding: 25px 15px;
+    border-radius: 10px;
+   /* background-color: #f0f0f0; */
+}
+
+.note-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.note-container ul {
+    width: 150px;
+    overflow-wrap: break-word;
+    list-style-type: "👉";
+    cursor: pointer;
+}
+
+.ajt {
+    margin-top: 15px;
+    padding: 5px 10px;
+    border: none;
+    background-color: #3d3d3d;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.ajt:hover {
+    box-shadow: 0 0 5px #c084fc, 0 0 44px #ec489933;
+}
+
+.ajt::before { transform: scaleX(0);}
+.ajt:hover::before {
+    transform: scaleX(1);
+    transition: transform 0.3s ease;
+}
+
+
+.mrigel {
+    text-decoration: line-through; 
+    list-style-type: "✅"; 
+    /* list-style-type: "✔️"; */
+ 
+}
+
+.item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.x {
+    cursor: pointer;
+}
