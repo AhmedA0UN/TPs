@@ -1,8 +1,7 @@
 import { useState } from 'react';
-import NaNvbar from '../pages/navbar.js';
+import Navbar from '../pages/navbar.js';
 import Footer from '../pages/footer';
 import './notes.css';
-
 
 function Notes() {
   const [notes, setNotes] = useState([]);
@@ -56,80 +55,72 @@ function Notes() {
       case "haute": return "🟥";
       case "moyenne": return "🟨";
       case "basse": return "🟩";
-      /*default: return "⬜";*/
+      default: return "⬜";
     }
   };
 
   return (
-    
     <div>
-
-      <div>
-        <NaNvbar />
-      </div>
+      <Navbar />
 
       <div className="Notestyle">
-      <h2 className='tt'>Voici vos notes</h2>
-      <div className="note-container">
-        <ul>
-          {notes.map(({ text, complete, priority, t, title }, index) => (
-            <div key={index} className='item'>
-              <li className={complete ? "complete" : ""} onClick={() => done(index)}>
-                <ul className='affnote'>
-                  <li className='afftitre'>
-                    <span className='actions'>
-                      <span onClick={() => supprimer(index)} className="x">❌</span>
-                      <span onClick={() => modifier(index)} className='x'>💱</span>
-                    </span>
-                    <span id='aff'>Titre : </span> <strong>{title}</strong>
-                  </li>
-                  <li className='affcontent'> <span id='aff'>Contenu : </span> {text}</li>
-                  <li className='suplimentaires'>
-                    <span id='afs'>Info : </span> {priColeur(priority)} 
-                    <span className='tim'>écrite le {t.toLocaleDateString()} à {t.toLocaleTimeString()}</span>
-                  </li>
-                </ul>
-              </li>
-            </div>
-          ))}
-        </ul>
-
-        <input 
-          id='additional-info-container' 
-          value={tit} 
-          onChange={(e) => setTit(e.target.value)} 
-          type="text" 
-          placeholder="Ajouter un Titre" 
-        />
-
+        <h2 className='tt'>Voici vos notes</h2>
         <div className="note-container">
-          <textarea required  id="additional-info" maxLength={Lmax} value={text}
-            placeholder={`Ajouter une note... (${Lmax} caractères max)`} onChange={(e) => setText(e.target.value)} />
-          <div className="char-count">
-            <span style={{ color: msg < 150 ? "#e74c3c" : msg < 500 ? "#f39c12" : "#666" }}>
-              {msg}
-            </span> 
-            <span className='nrml'>caractères restants</span>
+          <ul>
+            {notes.map(({ text, complete, priority, t, title }, index) => (
+              <div key={index} className='item'>
+                
+                <li >
+                  <div className='affnote'>
+                    <div className='afftitre'>
+                      <span className='actions'>
+                        <span onClick={() => supprimer(index)} className="x">❌</span>
+                        <span onClick={() => modifier(index)} className='x'>💱</span>
+                      </span>
+                      <span className={complete ? "complete" : ""} onClick={() => done(index)} id='aff'>Titre : </span> <strong>{title}</strong>
+                    </div>
+                    <div className={complete ? "complete" : ""} onClick={() => done(index)} id='affcontent'> <span id='aff'>Contenu : </span> {text}</div>
+                    <div  className='suplimentaires'>
+                      <span id='afs'>Info : </span> <span className='priorits'>priorité : </span>{priColeur(priority)}
+                      <span className='tim'> <span className='w'>🕐</span> écrite le {t.toLocaleDateString()} à {t.toLocaleTimeString()}</span>
+                    </div>
+                  </div>
+                </li>
+              </div>
+            ))}
+          </ul>
+
+          <input 
+            id='additional-info-container' 
+            value={tit} 
+            onChange={(e) => setTit(e.target.value)} 
+            type="text" 
+            placeholder="Ajouter un Titre" 
+          />
+
+          <div className="note-container">
+            <textarea required id="additional-info" maxLength={Lmax} value={text}
+              placeholder={`Ajouter une note... (${Lmax} caractères max)`} onChange={(e) => setText(e.target.value)} />
+            <div className="char-count">
+              <span style={{ color: msg < 150 ? "#e74c3c" : msg < 500 ? "#f39c12" : "#666" }}>
+                {msg} </span> <span className='nrml'>caractères restants</span>
+            </div>
           </div>
+
+          <div className='prior'>
+            <label htmlFor="select">Priorité: </label>
+            <select required id='select' name='select' value={priority} onChange={(e) => setPriority(e.target.value)} >
+              <option id='r' value="haute">Haute</option>
+              <option id='or' value="moyenne">Moyenne</option>
+              <option selected id='v' value="basse">Basse</option>
+            </select>
+          </div>
+
+          <button className='ajt' onClick={addNote}>Ajouter</button>
         </div>
-
-        <div className='prior'>
-          <label htmlFor="select">Priorité: </label>
-          <select required id='select' name='select' value={priority} onChange={(e) => setPriority(e.target.value)} >
-            <option id='r' value="haute">Haute</option>
-            <option id='or' value="moyenne">Moyenne</option>
-            <option selected id='v' value="basse">Basse</option>
-          </select>
-        </div>
-
-        <button className='ajt' onClick={addNote}>Ajouter</button>
-      </div>
-    </div>
-
-      <div>
-        <Footer />
       </div>
 
+      <Footer />
     </div>
   );
 }
