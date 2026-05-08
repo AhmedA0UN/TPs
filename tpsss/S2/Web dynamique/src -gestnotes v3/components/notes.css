@@ -3,6 +3,7 @@
     margin: 50px 30px;
     padding: 25px 15px;
     border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
    /* background-color: #f0f0f0; */
 }
 
@@ -100,6 +101,7 @@
 
 .complete {
     text-decoration: line-through;
+    list-style-type: none;
     list-style-type: "✅";
 }
 
@@ -131,4 +133,28 @@
 #v {
     background-color: white;
     color: #27ae60;
+}
+
+.affnotes {
+    list-style-type: none;
+}
+
+.afftitre {
+    content: none;
+}
+.affcontent {
+    list-style-type: none;
+}
+.suplimentaires {
+    list-style-type: none;
+}
+
+
+#aff {
+    color: #3d3d3d;
+    font-weight: bold;
+}
+#afs {
+    color: #3d3d3d;
+    font-weight: bold;
 }

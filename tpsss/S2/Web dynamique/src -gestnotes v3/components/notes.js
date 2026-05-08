@@ -1,9 +1,8 @@
-import { useState, useRef } from 'react';
+import { useState } from 'react';
 import './notes.css';
 
 function Notes() {
   const [notes, setNotes] = useState([]);
-  const inputRef = useRef(null);
   const [text, setText] = useState("");
   const [tit, setTit] = useState("");
   const [priority, setPriority] = useState("normal");
@@ -11,10 +10,10 @@ function Notes() {
   const msg = Lmax - text.length;
 
   const addNote = () => {
-    if (inputRef.current.value.trim() !== "") {
+    if (text.trim() !== "") {
       const newNote = {
         complete: false,
-        text: inputRef.current.value.trim(),
+        text: text.trim(),
         title: tit,
         priority,
         t: new Date()
@@ -22,7 +21,6 @@ function Notes() {
       setNotes([...notes, newNote]);
       setText("");
       setTit("");
-      inputRef.current.value = "";
       setPriority("normal");
     } else {
       alert("Veuillez entrer une note avant d'ajouter.");
@@ -55,6 +53,7 @@ function Notes() {
       case "haute": return "🟥";
       case "moyenne": return "🟨";
       case "basse": return "🟩";
+      /*default: return "⬜";*/
     }
   };
 
@@ -66,24 +65,41 @@ function Notes() {
           {notes.map(({ text, complete, priority, t, title }, index) => (
             <div key={index} className='item'>
               <li className={complete ? "complete" : ""} onClick={() => done(index)}>
-                <strong>{title} : </strong> {text} {priColeur(priority)} <span className='tim'>écrite le {t.toLocaleDateString()} à {t.toLocaleTimeString()}</span>
+                <ul className='affnote'>
+                  <li className='afftitre'>
+                    <span className='actions'>
+                      <span onClick={() => supprimer(index)} className="x">❌</span>
+                      <span onClick={() => modifier(index)} className='x'>💱</span>
+                    </span>
+                    <span id='aff'>Titre : </span> <strong>{title}</strong>
+                  </li>
+                  <li className='affcontent'> <span id='aff'>Contenu : </span> {text}</li>
+                  <li className='suplimentaires'>
+                    <span id='afs'>Info : </span> {priColeur(priority)} 
+                    <span className='tim'>écrite le {t.toLocaleDateString()} à {t.toLocaleTimeString()}</span>
+                  </li>
+                </ul>
               </li>
-              
-              <span className='actions'>
-                <span onClick={() => supprimer(index)} className="x">❌</span>
-                <span onClick={() => modifier(index)} className='x'>💱</span>
-              </span>
             </div>
           ))}
         </ul>
 
-        <input id='additional-info-container' value={tit} onChange={(e) => setTit(e.target.value)} type="text" placeholder="Ajouter un Titre" />
+        <input 
+          id='additional-info-container' 
+          value={tit} 
+          onChange={(e) => setTit(e.target.value)} 
+          type="text" 
+          placeholder="Ajouter un Titre" 
+        />
 
         <div className="note-container">
-          <textarea required id="additional-info"maxLength={Lmax} value={text} ref={inputRef}
+          <textarea required  id="additional-info" maxLength={Lmax} value={text}
             placeholder={`Ajouter une note... (${Lmax} caractères max)`} onChange={(e) => setText(e.target.value)} />
-          <div className="char-count" >
-            <span style={{ color: msg < 150 ? "#e74c3c" : msg < 500 ? "#f39c12" : "#666" }}>{msg}</span> <span className='nrml'>caractères restants</span>
+          <div className="char-count">
+            <span style={{ color: msg < 150 ? "#e74c3c" : msg < 500 ? "#f39c12" : "#666" }}>
+              {msg}
+            </span> 
+            <span className='nrml'>caractères restants</span>
           </div>
         </div>
 
@@ -92,7 +108,7 @@ function Notes() {
           <select required id='select' name='select' value={priority} onChange={(e) => setPriority(e.target.value)} >
             <option id='r' value="haute">Haute</option>
             <option id='or' value="moyenne">Moyenne</option>
-            <option id='v' value="basse">Basse</option>
+            <option selected id='v' value="basse">Basse</option>
           </select>
         </div>
 
