@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
-import "./hi.css"
+import "../styles/hi.css"
 
 function Register() {
   const [username, setUsername] = useState("")

@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
-import "./hi.css";
+import "../styles/hi.css";
 
 function Login() {
   const [username, setusername] = useState("");
@@ -11,7 +11,7 @@ function Login() {
   const add = (e) => {
     e.preventDefault(); 
 
-    if (username.trim() !== "") {   
+    if (username.trim() !== "" && password.trim() !== "") {   
       setusers([...users, { username, password }]);
       console.log(users);
 
@@ -20,6 +20,9 @@ function Login() {
         navigate("/register");
       }, 1000); */
 
+    }
+    else {
+      alert("Veuillez remplir tous les champs.");
     }
   };
 

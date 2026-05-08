@@ -6,6 +6,14 @@
    /* background-color: #f0f0f0; */
 }
 
+.tt {
+    color: #674fd5;
+    font-weight: bold;
+    font-size: 2.5rem;
+    text-align: center;
+    
+}
+
 .note-container {
     display: flex;
     flex-direction: column;
@@ -75,4 +83,52 @@
 .x:hover {
     font-size: 103%;
     transition: font-size 0.3s ease;
+}
+
+.actions {
+    display: flex;
+    margin: 0px 0px 0px 300px;
+    text-align: center;
+}
+
+.tim {
+    display: inline-block;
+    font-size: smaller;
+    color: #3d3d3d;
+    margin-left: 10px;
+}
+
+.complete {
+    text-decoration: line-through;
+    list-style-type: "✅";
+}
+
+
+.prior {
+    display: inline-block;
+    padding: 2px 6px;
+    border-radius: 4px;
+    color: rgb(186, 220, 14);
+    margin-left: 10px;
+}
+
+.prior select {
+    padding: 2px 6px;
+    border-radius: 4px;
+    border: 0px solid #3d3d3d;
+    background-color: white;
+    color: #07a7bc;
+}
+
+#r {
+    background-color: white;
+    color: #ff4d4d;
+}
+#or {
+    background-color: white;
+    color: #f39c12;
+}
+#v {
+    background-color: white;
+    color: #27ae60;
 }
