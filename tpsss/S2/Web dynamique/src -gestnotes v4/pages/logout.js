@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom"
+import { useState } from "react"
 import "../styles/logout.css"
 
 function Logout() {
@@ -15,6 +16,7 @@ function Logout() {
   return (
     <div className="Logout">
       <button onClick={logout}>Se déconnecter</button>
+      {message && <p>{message}</p>}
     </div>
   )
 }
