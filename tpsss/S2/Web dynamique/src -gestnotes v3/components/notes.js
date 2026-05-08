@@ -72,7 +72,7 @@ function Notes() {
 
         <div className='prior'>
             <label for="slect">Priorité: </label>
-            <select>
+            <select required id='select' name='select'>
               <option value="important">Important</option>
               <option value="urgent">Urgent</option>
               <option value="normal" selected>Normal</option>
