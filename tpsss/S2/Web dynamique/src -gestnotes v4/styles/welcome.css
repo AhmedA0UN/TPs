@@ -1,0 +1,18 @@
+.welcome { 
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+    justify-content: center; 
+    height: 100vh; 
+    background-color: #d0bbbb; 
+   
+}
+
+.welcome h2 { 
+    color: #333; 
+    font-size: 24px; 
+}
+
+.welcome h1 {  
+    font-size: 48px; 
+}
