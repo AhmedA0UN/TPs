@@ -62,6 +62,18 @@ function Notes() {
     }
   };
 
+const formatDate = (date) => {
+  const optionsDate = { day: "2-digit", month: "2-digit", year: "numeric" };
+  const optionsTime = { hour: "2-digit", minute: "2-digit", second: "2-digit" };
+
+  const datePart = date.toLocaleDateString("fr-FR", optionsDate);
+  const timePart = date.toLocaleTimeString("fr-FR", optionsTime);
+
+  return `${datePart} à ${timePart}`;
+};
+
+
+
   return (
     <div>
       <Navbar />
@@ -85,7 +97,7 @@ function Notes() {
                     <div className={complete ? "complete" : ""} onClick={() => done(index)} id='affcontent'> <span id='aff'>Contenu : </span> {text}</div>
                     <div  className='suplimentaires'>
                       <span id='afs'>Info : </span> <span className='priorits'>priorité : </span> {priColeur(priority)}
-                      <span className='tim'> <span className='w'>🕐</span> écrite le {t.toLocaleDateString()} à {t.toLocaleTimeString()}</span>
+                      <span className='tim'> <span className='w'>🕐</span> écrite le {formatDate(t)}</span>
                     </div>
                   </div>
                 </li>
