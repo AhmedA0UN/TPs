@@ -43,9 +43,11 @@ function Notes() {
 
   const modifier = (index) => {
     const newNotes = [...notes];
+    const newTit = prompt("Modifier le titre:", newNotes[index].title ,);
     const newText = prompt("Modifier la note:", newNotes[index].text);
-    if (newText !== null) {
-      newNotes[index].text = newText;
+      if (newTit !== null && newText !== null) {
+        newNotes[index].title = newTit;
+        newNotes[index].text = newText;
       setNotes(newNotes);
     }
   };
@@ -81,7 +83,7 @@ function Notes() {
                     </div>
                     <div className={complete ? "complete" : ""} onClick={() => done(index)} id='affcontent'> <span id='aff'>Contenu : </span> {text}</div>
                     <div  className='suplimentaires'>
-                      <span id='afs'>Info : </span> <span className='priorits'>priorité : </span>{priColeur(priority)}
+                      <span id='afs'>Info : </span> <span className='priorits'>priorité : </span> {priColeur(priority)}
                       <span className='tim'> <span className='w'>🕐</span> écrite le {t.toLocaleDateString()} à {t.toLocaleTimeString()}</span>
                     </div>
                   </div>
