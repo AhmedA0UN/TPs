@@ -8,6 +8,7 @@ function Notes() {
   const [text, setText] = useState("");
   const [tit, setTit] = useState("");
   const [priority, setPriority] = useState("basse");
+  const titmax = 100;
   const Lmax = 1000;
   const msg = Lmax - text.length;
 
@@ -43,7 +44,7 @@ function Notes() {
 
   const modifier = (index) => {
     const newNotes = [...notes];
-    const newTit = prompt("Modifier le titre:", newNotes[index].title ,);
+    const newTit = prompt("Modifier le titre:", newNotes[index].title);
     const newText = prompt("Modifier la note:", newNotes[index].text);
       if (newTit !== null && newText !== null) {
         newNotes[index].title = newTit;
@@ -92,7 +93,7 @@ function Notes() {
             ))}
           </ul>
 
-          <input id='additional-info-container' value={tit} onChange={(e) => setTit(e.target.value)} type="text" placeholder="Ajouter un Titre" />
+          <input maxLength={titmax} id='intit' value={tit} onChange={(e) => setTit(e.target.value)} type="text" placeholder="Ajouter un Titre" />
           <div className="note-container">
             <textarea required id="additional-info" maxLength={Lmax} value={text}
               placeholder={`Ajouter une note... (${Lmax} caractères max)`} onChange={(e) => setText(e.target.value)} />
