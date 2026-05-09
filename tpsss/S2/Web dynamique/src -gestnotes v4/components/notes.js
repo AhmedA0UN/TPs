@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import Navbar from '../pages/navbar.js';
 import Footer from '../pages/footer';
-import './notes.css';
+import '../styles/notes.css';
 
 function Notes() {
   const [notes, setNotes] = useState([]);
