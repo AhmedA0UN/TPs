@@ -62,16 +62,12 @@ function Notes() {
     }
   };
 
-const formatDate = (date) => {
-  const optionsDate = { day: "2-digit", month: "2-digit", year: "numeric" };
-  const optionsTime = { hour: "2-digit", minute: "2-digit", second: "2-digit" };
-
-  const datePart = date.toLocaleDateString("fr-FR", optionsDate);
-  const timePart = date.toLocaleTimeString("fr-FR", optionsTime);
-
-  return `${datePart} à ${timePart}`;
+  const formatDate = (date) => {
+  return date.toLocaleString("fr-FR", {
+    dateStyle: "short",
+    timeStyle: "medium"
+  });
 };
-
 
 
   return (
