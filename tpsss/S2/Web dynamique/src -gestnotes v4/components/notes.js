@@ -70,8 +70,8 @@ function Notes() {
         <h2 className='tt'>Voici vos notes</h2>
         <div className="note-container">
           <ul>
-            {notes.map(({ text, complete, priority, t, title }, index) => (
-              <div key={index} className='item'>
+            {notes.slice().sort((a, b) => b.t - a.t).map(({ text, complete, priority, t, title }, index) => (
+              <div className='item'>
                 
                 <li className={complete ? "complete" : ""} >
                   <div className='affnote'>
@@ -93,8 +93,8 @@ function Notes() {
             ))}
           </ul>
 
-          <input maxLength={titmax} id='intit' value={tit} onChange={(e) => setTit(e.target.value)} type="text" placeholder="Ajouter un Titre" />
-          <div className="note-container">
+          <input method="POST" maxLength={titmax} id='intit' value={tit} onChange={(e) => setTit(e.target.value)} type="text" placeholder="Ajouter un Titre" />
+          <div method="POST" className="note-container">
             <textarea required id="additional-info" maxLength={Lmax} value={text}
               placeholder={`Ajouter une note... (${Lmax} caractères max)`} onChange={(e) => setText(e.target.value)} />
             <div className="char-count">
@@ -105,7 +105,7 @@ function Notes() {
 
           <div className='prior'>
             <label htmlFor="select">Priorité: </label>
-            <select required id='select' name='select' value={priority} onChange={(e) => setPriority(e.target.value)} >
+            <select method="POST" required id='select' name='select' value={priority} onChange={(e) => setPriority(e.target.value)} >
               <option id='r' value="haute">Haute</option>
               <option id='or' value="moyenne">Moyenne</option>
               <option selected id='v' value="basse">Basse</option>

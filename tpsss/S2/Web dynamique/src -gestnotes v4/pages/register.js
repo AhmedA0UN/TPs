@@ -28,7 +28,7 @@ function Register() {
   return (
     <div className="Register Auth">
       <h2>Inscription</h2>
-      <form onSubmit={add_user}>
+      <form onSubmit={add_user} method="POST">
         <input 
           type="text" 
           placeholder="full username" 

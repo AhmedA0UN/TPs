@@ -28,7 +28,7 @@ function Login() {
 
   return (
     <div className="Auth">
-      <form onSubmit={add}>
+      <form onSubmit={add} method="POST">
         <h2>Login</h2>
         <input
           type="text"
